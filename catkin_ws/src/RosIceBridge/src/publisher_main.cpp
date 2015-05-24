@@ -12,7 +12,7 @@ int main(int argc, char **argv)
     publisher_bridge.addRosPublisher<RosIceBridge::Num>("test",10);
 
     long count = 0;
-    while (count < 100)
+    while (ros::ok())
     {
         RosIceBridge::Num n;
         n.num = count;

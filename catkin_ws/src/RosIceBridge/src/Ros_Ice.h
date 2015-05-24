@@ -38,6 +38,7 @@ public:
     template <class ROS_DATA>
     void rosPublish(ROS_DATA message)
     {
+        ROS_INFO("Publisher message %ld \n", message.num);
         RosPublisher->publish(message);
     }
 
