@@ -1,4 +1,4 @@
-module Message{
+module IceMessage{
 
 struct Num {
     long value;

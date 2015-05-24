@@ -46,8 +46,9 @@ find_package(catkin REQUIRED COMPONENTS
 
 ## Generate messages in the 'msg' folder
  add_message_files(
+   FILES
    Num.msg
-# )
+ )
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -121,14 +122,22 @@ add_subdirectory(interfaces)
 # )
 
 ## Declare a cpp executable
-add_executable(publisher src/RosIceBridge.cpp)
+add_executable(publisher src/Ros_Ice.cpp src/publisher_main.cpp)
+add_executable(subscriber src/Ros_Ice.cpp src/subscriber_main.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-add_dependencies(RosIceBridge_node RosIceBridge_generate_messages_cpp)
+add_dependencies(publisher RosIceBridge_generate_messages_cpp)
+add_dependencies(subscriber RosIceBridge_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
- target_link_libraries(RosIceBridge_node
+ target_link_libraries(publisher
+   ${catkin_LIBRARIES}
+   ${ice_LIBRARIES}
+   jderobot_interfaces
+ )
+
+ target_link_libraries(subscriber
    ${catkin_LIBRARIES}
    ${ice_LIBRARIES}
    jderobot_interfaces
