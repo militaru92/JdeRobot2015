@@ -122,22 +122,22 @@ add_subdirectory(interfaces)
 # )
 
 ## Declare a cpp executable
-add_executable(publisher src/publisher_main.cpp src/Bridge.cpp)
-add_executable(subscriber src/subscriber_main.cpp src/Bridge.cpp)
+add_executable(ROSPublisher src/ROSPublisher_main.cpp)
+add_executable(IceServer src/IceServer_main.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-add_dependencies(publisher RosIceBridge_generate_messages_cpp)
-add_dependencies(subscriber RosIceBridge_generate_messages_cpp)
+add_dependencies(ROSPublisher RosIceBridge_generate_messages_cpp)
+add_dependencies(IceServer RosIceBridge_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
- target_link_libraries(publisher
+ target_link_libraries(ROSPublisher
    ${catkin_LIBRARIES}
    ${ice_LIBRARIES}
    jderobot_interfaces
  )
 
- target_link_libraries(subscriber
+ target_link_libraries(IceServer
    ${catkin_LIBRARIES}
    ${ice_LIBRARIES}
    jderobot_interfaces

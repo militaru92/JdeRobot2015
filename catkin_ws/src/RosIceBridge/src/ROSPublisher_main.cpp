@@ -34,6 +34,11 @@ int main(int argc, char **argv)
         bridge->rosPublish<RosIceBridge::Num>(var);
     }
 
+    while(var.num < 200)
+    {
+        var.num = var.num + 1;
+    }
+
     delete bridge;
 
 
