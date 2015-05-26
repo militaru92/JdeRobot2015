@@ -5,12 +5,12 @@
 
 class MonitorI : public Message::Monitor {
 public:
-    virtual void publish(const Message::Num &, const Ice::Current&);
+    virtual void publish2(const Message::Num &, const Ice::Current&);
 };
 
 void
 MonitorI::
-publish(const Message::Num& s, const Ice::Current&)
+publish2(const Message::Num& s, const Ice::Current&)
 {
     std::cout << s.value << " Ice " << std::endl;
 }

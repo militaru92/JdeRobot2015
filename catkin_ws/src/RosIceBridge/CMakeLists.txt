@@ -122,8 +122,8 @@ add_subdirectory(interfaces)
 # )
 
 ## Declare a cpp executable
-add_executable(publisher src/publisher_main.cpp)
-add_executable(subscriber src/subscriber_main.cpp)
+add_executable(publisher src/publisher_main.cpp src/Bridge.cpp)
+add_executable(subscriber src/subscriber_main.cpp src/Bridge.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes

@@ -19,6 +19,8 @@ private:
 
     Ice::CommunicatorPtr IceCommunicator;
 
+protected:
+
     IcePrx Proxy;
 
 public:
@@ -99,6 +101,13 @@ public:
 
     }
 
+    template <class ROS_DATA, class ROS_CLASS>
+    void addRosSubscriber(std::string rosTopic, int queueSize,void(ROS_CLASS::*callback)(ROS_DATA), ROS_CLASS *rosObject)
+    {
+        RosSubscriber = new ros::Subscriber(RosNode->subscribe(rosTopic, queueSize, callback,rosObject));
+
+    }
+
 
     template <class ROS_DATA>
     void rosPublish(ROS_DATA message)
@@ -107,11 +116,6 @@ public:
         RosPublisher->publish(message);
     }
 
-    template <class ICE_DATA>
-    void icePublish(ICE_DATA message)
-    {
-        Proxy->publish(message);
-    }
 
     void addIceProxy(std::string ProxyString)
     {

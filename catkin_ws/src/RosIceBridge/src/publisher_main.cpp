@@ -1,29 +1,22 @@
 #include "ros/ros.h"
-#include "Ros_Ice.h"
+#include "Bridge.h"
 #include <RosIceBridge/Num.h>
 #include <Num.h>
 
-Ros_Ice<Message::MonitorPrx> *bridge;
 
 
-void callback(RosIceBridge::Num rosMessage)
-{
 
-    Message::Num m;
-
-    m.value = rosMessage.num;
-
-    bridge->icePublish(m);
-}
 
 
 int main(int argc, char **argv)
 {
 
-    bridge = new Ros_Ice<Message::MonitorPrx> (argc,argv,"publisher");
+    Bridge<Message::MonitorPrx> *bridge;
+
+    bridge = new Bridge<Message::MonitorPrx> (argc,argv,"publisher");
 
     bridge->addRosPublisher<RosIceBridge::Num>("test",1000);
-    bridge->addRosSubscriber<RosIceBridge::Num>("test",1000,callback);
+    bridge->addRosSubscriber<RosIceBridge::Num>("test",1000,&Bridge<Message::MonitorPrx>::rosCallback,bridge);
     bridge->addIceProxy("SimpleMonitor:default -p 10000");
 
 
