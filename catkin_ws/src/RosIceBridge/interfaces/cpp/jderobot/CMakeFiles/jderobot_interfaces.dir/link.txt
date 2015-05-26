@@ -1,1 +1,0 @@
-/usr/bin/c++  -fPIC    -shared -Wl,-soname,libjderobot_interfaces.so -o ../../../devel/lib/libjderobot_interfaces.so CMakeFiles/jderobot_interfaces.dir/Num.cpp.o 
