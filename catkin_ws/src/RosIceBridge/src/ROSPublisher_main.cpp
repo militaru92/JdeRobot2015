@@ -5,9 +5,6 @@
 
 
 
-
-
-
 int main(int argc, char **argv)
 {
 
@@ -18,11 +15,6 @@ int main(int argc, char **argv)
     bridge->addRosPublisher<RosIceBridge::Num>("test",1000);
     bridge->addRosSubscriber<RosIceBridge::Num>("test",1000,&Bridge<Message::MonitorPrx>::rosCallback,bridge);
     bridge->addIceProxy("SimpleMonitor:default -p 10000");
-
-
-
-
-
 
 
     RosIceBridge::Num var;

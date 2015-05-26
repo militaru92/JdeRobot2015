@@ -123,12 +123,18 @@ add_subdirectory(interfaces)
 
 ## Declare a cpp executable
 add_executable(ROSPublisher src/ROSPublisher_main.cpp)
-add_executable(IceServer src/IceServer_main.cpp)
+add_executable(ROSIceServer src/ROSIceServer_main.cpp)
+add_executable(IceRosServer src/IceRosServer_main.cpp src/IceRosBridge.cpp)
+add_executable(IceRosClient src/IceRosClient_main.cpp)
+
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
 add_dependencies(ROSPublisher RosIceBridge_generate_messages_cpp)
-add_dependencies(IceServer RosIceBridge_generate_messages_cpp)
+add_dependencies(ROSIceServer RosIceBridge_generate_messages_cpp)
+add_dependencies(IceRosServer RosIceBridge_generate_messages_cpp)
+add_dependencies(IceRosClient RosIceBridge_generate_messages_cpp)
+
 
 ## Specify libraries to link a library or executable target against
  target_link_libraries(ROSPublisher
@@ -137,11 +143,24 @@ add_dependencies(IceServer RosIceBridge_generate_messages_cpp)
    jderobot_interfaces
  )
 
- target_link_libraries(IceServer
+ target_link_libraries(ROSIceServer
    ${catkin_LIBRARIES}
    ${ice_LIBRARIES}
    jderobot_interfaces
  )
+
+ target_link_libraries(IceRosServer
+   ${catkin_LIBRARIES}
+   ${ice_LIBRARIES}
+   jderobot_interfaces
+ )
+
+ target_link_libraries(IceRosClient
+   ${catkin_LIBRARIES}
+   ${ice_LIBRARIES}
+   jderobot_interfaces
+ )
+
 
 #############
 ## Install ##

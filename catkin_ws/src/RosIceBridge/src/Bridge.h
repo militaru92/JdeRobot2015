@@ -4,8 +4,13 @@
 #include "Ros_Ice.h"
 #include "RosIceBridge/Num.h"
 #include <Num.h>
-template<class IcePrx>
 
+
+/**
+ * @brief Method for adding a Subscriber with a simple function as callback
+ */
+
+template<class IcePrx>
 class Bridge : public Ros_Ice<IcePrx>
 {
 public:
@@ -16,6 +21,9 @@ public:
     }
 
 
+    /**
+     * @brief Callback Method that will forward the ROS message to the Ice framework
+     */
 
     void rosCallback(RosIceBridge::Num RosMessage)
     {
@@ -24,6 +32,11 @@ public:
         icePublish(IceMessage);
 
     }
+
+
+    /**
+     * @brief Method for sending a request from an Ice Client
+     */
 
     void icePublish(Message::Num message)
     {
