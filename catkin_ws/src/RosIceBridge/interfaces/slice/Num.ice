@@ -5,7 +5,7 @@ struct Num {
 };
 
 interface Monitor {
-    void report(Num m);
+    void publish(Num m);
 };
 
 };
