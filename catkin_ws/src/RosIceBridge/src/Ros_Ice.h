@@ -4,6 +4,7 @@
 #include <iostream>
 #include "ros/ros.h"
 #include <Ice/Ice.h>
+#include "image_transport/image_transport.h"
 
 
 /**
@@ -19,6 +20,10 @@ private:
     ros::NodeHandle* RosNode;
     ros::Publisher*  RosPublisher;
     ros::Subscriber* RosSubscriber;
+
+    image_transport::ImageTransport* ImageNode;
+    image_transport::Publisher* ImagePublisher;
+    image_transport::Subscriber* ImageSubscriber;
 
     /**
      * @brief This is the object that will run the ROS Spinner in order to run the callbacks
@@ -41,6 +46,10 @@ public:
         RosPublisher = NULL;
         RosSubscriber = NULL;
 
+        ImageNode = NULL;
+        ImagePublisher = NULL;
+        ImageSubscriber = NULL;
+
         isCommunicator = false;
     }
 
@@ -48,6 +57,7 @@ public:
     {
 
         initializeROS(argc,argv,nodeName);
+        RosSpinner = NULL;
 
 
         initializeIce(argc,argv);
@@ -57,6 +67,7 @@ public:
 
     virtual ~Ros_Ice()
     {
+        delete ImageNode;
         delete RosNode;
 
 
@@ -70,8 +81,24 @@ public:
             delete RosSubscriber;
         }
 
-        RosSpinner->stop();
-        delete RosSpinner;
+        if(ImagePublisher)
+        {
+            delete ImagePublisher;
+        }
+
+        if(ImageSubscriber)
+        {
+            delete ImageSubscriber;
+        }
+
+
+        if(RosSpinner)
+        {
+            RosSpinner->stop();
+            delete RosSpinner;
+        }
+
+
 
         if(isCommunicator)
         {
@@ -100,13 +127,25 @@ public:
 
         ros::init(argc, argv, nodeName);
         RosNode = new ros::NodeHandle;
-        RosSpinner = new ros::AsyncSpinner(4);
+        ImageNode = new image_transport::ImageTransport(*RosNode);
+
         RosPublisher = NULL;
         RosSubscriber = NULL;
 
-        RosSpinner->start();
+        ImagePublisher = NULL;
+        ImageSubscriber = NULL;
+
+
+
 
         return 0;
+    }
+
+    void runROSSpinner()
+    {
+        RosSpinner = new ros::AsyncSpinner(4);
+        RosSpinner->start();
+
     }
 
     /**
@@ -158,13 +197,48 @@ public:
 
 
     /**
-     * @brief Method for adding a Subscriber with a simple function as callback
+     * @brief Method for adding a Subscriber with a method of a user implemented class
      */
 
     template <class ROS_DATA, class ROS_CLASS>
     void addRosSubscriber(std::string rosTopic, int queueSize,void(ROS_CLASS::*callback)(ROS_DATA), ROS_CLASS *rosObject)
     {
         RosSubscriber = new ros::Subscriber(RosNode->subscribe(rosTopic, queueSize, callback,rosObject));
+
+    }
+
+
+    /**
+     * @brief Method to create an Image_Transport Publisher for a given topic
+     */
+
+
+    void addRosImagePublisher(std::string rosTopic, int queueSize)
+    {
+        ImagePublisher = new image_transport::Publisher(ImageNode->advertise(rosTopic, queueSize));
+
+    }
+
+
+    /**
+     * @brief Method for adding an Image_Transport Subscriber with a simple function as callback
+     */
+
+    void addRosImageSubscriber(std::string rosTopic, int queueSize,void(*callback)(sensor_msgs::ImageConstPtr& image_message))
+    {
+        ImageSubscriber = new image_transport::Subscriber(ImageNode->subscribe(rosTopic, queueSize, callback));
+
+    }
+
+
+    /**
+     * @brief Method for adding an Image_Transport Subscriber with a method of a user implemented class
+     */
+
+    template <class ROS_CLASS>
+    void addRosImageSubscriber(std::string rosTopic, int queueSize,void(ROS_CLASS::*callback)(sensor_msgs::ImageConstPtr& image_message), ROS_CLASS *rosObject)
+    {
+        ImageSubscriber = new image_transport::Subscriber(ImageNode->subscribe(rosTopic, queueSize, callback,rosObject));
 
     }
 
@@ -179,6 +253,14 @@ public:
         ROS_INFO("Publisher message %ld \n", message.num);
         RosPublisher->publish(message);
     }
+
+    void rosImagePublish(sensor_msgs::ImageConstPtr& image_message)
+    {
+        ROS_INFO("Published image\n");
+        ImagePublisher->publish(image_message);
+    }
+
+
 
     /**
      * @brief Method to configure the Ice Proxy

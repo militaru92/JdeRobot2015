@@ -11,6 +11,7 @@ int main(int argc, char **argv)
     Bridge<Message::MonitorPrx> *bridge;
 
     bridge = new Bridge<Message::MonitorPrx> (argc,argv,"publisher");
+    bridge->runROSSpinner();
 
     bridge->addRosPublisher<RosIceBridge::Num>("test",1000);
     bridge->addRosSubscriber<RosIceBridge::Num>("test",1000,&Bridge<Message::MonitorPrx>::rosCallback,bridge);

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(RosIceBridge)
+project(RosIceCamera)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -8,11 +8,10 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
-  message_generation
   image_transport
-  sensor_msgs
-  cv_bridge
 )
+
+find_package(OpenCV REQUIRED)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -48,10 +47,11 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
- add_message_files(
-   FILES
-   Num.msg
- )
+# add_message_files(
+#   FILES
+#   Message1.msg
+#   Message2.msg
+# )
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -68,10 +68,10 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate added messages and services with any dependencies listed here
- generate_messages(
-   DEPENDENCIES
-   std_msgs
- )
+# generate_messages(
+#   DEPENDENCIES
+#   std_msgs
+# )
 
 ###################################
 ## catkin specific configuration ##
@@ -84,8 +84,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES RosIceBridge
-  CATKIN_DEPENDS message_runtime
+#  LIBRARIES RosIceCamera
+#  CATKIN_DEPENDS roscpp rospy std_msgs
 #  DEPENDS system_lib
 )
 
@@ -108,62 +108,46 @@ list(APPEND ice_LIBRARIES
     ${ice_LIBRARY3}
 )
 
-
-
 include_directories(
   ${catkin_INCLUDE_DIRS}
   ${slice_output_dir}
   ${slice_output_dir}/jderobot
+  /usr/local/include/jderobot
   #${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
 add_subdirectory(interfaces)
 
 ## Declare a cpp library
-# add_library(RosIceBridge
-#   src/${PROJECT_NAME}/RosIceBridge.cpp
+# add_library(RosIceCamera
+#   src/${PROJECT_NAME}/RosIceCamera.cpp
 # )
 
 ## Declare a cpp executable
-add_executable(ROSPublisher src/ROSPublisher_main.cpp)
-add_executable(ROSIceServer src/ROSIceServer_main.cpp)
-add_executable(IceRosServer src/IceRosServer_main.cpp src/IceRosBridge.cpp)
-add_executable(IceRosClient src/IceRosClient_main.cpp)
-
+# add_executable(RosIceCamera_node src/RosIceCamera_node.cpp)
+add_executable(CameraClient src/CameraClient.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-add_dependencies(ROSPublisher RosIceBridge_generate_messages_cpp)
-add_dependencies(ROSIceServer RosIceBridge_generate_messages_cpp)
-add_dependencies(IceRosServer RosIceBridge_generate_messages_cpp)
-add_dependencies(IceRosClient RosIceBridge_generate_messages_cpp)
-
+# add_dependencies(RosIceCamera_node RosIceCamera_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
- target_link_libraries(ROSPublisher
+# target_link_libraries(RosIceCamera_node
+#   ${catkin_LIBRARIES}
+# )
+
+ target_link_libraries(CameraClient
    ${catkin_LIBRARIES}
    ${ice_LIBRARIES}
    jderobot_interfaces
+   ${ZLIB_LIBRARIES}
+   ${ZeroCIce_LIBRARIES}
+   /usr/local/lib/jderobot/libJderobotInterfaces.so
+   /usr/local/lib/jderobot/libparallelIce.so
+
  )
 
- target_link_libraries(ROSIceServer
-   ${catkin_LIBRARIES}
-   ${ice_LIBRARIES}
-   jderobot_interfaces
- )
-
- target_link_libraries(IceRosServer
-   ${catkin_LIBRARIES}
-   ${ice_LIBRARIES}
-   jderobot_interfaces
- )
-
- target_link_libraries(IceRosClient
-   ${catkin_LIBRARIES}
-   ${ice_LIBRARIES}
-   jderobot_interfaces
- )
-
+target_link_libraries(CameraClient ${OpenCV_LIBS})
 
 #############
 ## Install ##
@@ -180,7 +164,7 @@ add_dependencies(IceRosClient RosIceBridge_generate_messages_cpp)
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS RosIceBridge RosIceBridge_node
+# install(TARGETS RosIceCamera RosIceCamera_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -205,7 +189,7 @@ add_dependencies(IceRosClient RosIceBridge_generate_messages_cpp)
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_RosIceBridge.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_RosIceCamera.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

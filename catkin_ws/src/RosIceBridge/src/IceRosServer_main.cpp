@@ -11,6 +11,7 @@ int main(int argc, char **argv)
 
         IceRosBridge *bridge = new IceRosBridge;
         bridge->initializeROS(argc,argv,"publisher");
+        bridge->runROSSpinner();
         bridge->addRosPublisher<RosIceBridge::Num>("test",1000);
         bridge->addRosSubscriber("test",1000,&IceRosBridge::rosCallback,bridge);
         Ice::ObjectPtr object = bridge;
