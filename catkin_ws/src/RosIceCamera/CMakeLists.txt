@@ -127,7 +127,8 @@ add_subdirectory(interfaces)
 
 ## Declare a cpp executable
 # add_executable(RosIceCamera_node src/RosIceCamera_node.cpp)
-add_executable(CameraClient src/CameraClient_main.cpp src/CameraClient)
+add_executable(CameraClient src/CameraClient_main.cpp src/CameraClient.cpp)
+add_executable(RosImageServer src/RosImageServer_main.cpp src/RosImageServer)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
@@ -145,12 +146,26 @@ add_executable(CameraClient src/CameraClient_main.cpp src/CameraClient)
    ${ZLIB_LIBRARIES}
    ${ZeroCIce_LIBRARIES}
    ${OpenCV_LIBRARIES}
+   ${OpenCV_LIBS}
    /usr/local/lib/jderobot/libJderobotInterfaces.so
    /usr/local/lib/jderobot/libparallelIce.so
 
  )
 
-target_link_libraries(CameraClient ${OpenCV_LIBS})
+
+ target_link_libraries(RosImageServer
+   ${catkin_LIBRARIES}
+   ${ice_LIBRARIES}
+   jderobot_interfaces
+   ${ZLIB_LIBRARIES}
+   ${ZeroCIce_LIBRARIES}
+   ${OpenCV_LIBRARIES}
+   ${OpenCV_LIBS}
+   /usr/local/lib/jderobot/libJderobotInterfaces.so
+   /usr/local/lib/jderobot/libparallelIce.so
+
+ )
+
 
 #############
 ## Install ##

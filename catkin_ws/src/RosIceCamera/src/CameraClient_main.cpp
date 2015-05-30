@@ -17,7 +17,9 @@ int main(int argc, char** argv){
     jderobot::cameraClient* camRGB;
     CameraClient c = CameraClient(argc,argv,"cam");
 
-    try{
+    try
+    {
+
         ic = Ice::initialize(argc,argv);
         Ice::ObjectPrx base = ic->propertyToProxy("Cameraview.Camera.Proxy");
         Ice::PropertiesPtr prop = ic->getProperties();
@@ -28,14 +30,17 @@ int main(int argc, char** argv){
 
         camRGB = new jderobot::cameraClient(ic,"Cameraview.Camera.");
 
-        if (camRGB == NULL){
+        if (camRGB == NULL)
+        {
             throw "Invalid proxy";
         }
+
         camRGB->start();
 
         cv::Mat rgb;
 
-        while(ros::ok()){
+        while(ros::ok())
+        {
 
 
             camRGB->getImage(rgb);
@@ -45,16 +50,23 @@ int main(int argc, char** argv){
             c.rosImagePublish(img_message);
 
         }
-    }catch (const Ice::Exception& ex) {
+
+    }
+    catch (const Ice::Exception& ex)
+    {
         std::cerr << ex << std::endl;
         status = 1;
-    } catch (const char* msg) {
+    }
+    catch (const char* msg)
+    {
         std::cerr << msg << std::endl;
         status = 1;
     }
 
     if (ic)
+    {
         ic->destroy();
+    }
 
     camRGB->stop_thread();
     delete(camRGB);
