@@ -9,6 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   image_transport
+  cv_bridge
 )
 
 find_package(OpenCV REQUIRED)
@@ -113,6 +114,7 @@ include_directories(
   ${slice_output_dir}
   ${slice_output_dir}/jderobot
   /usr/local/include/jderobot
+  ${OpenCV_INCLUDE_DIRS}
   #${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
@@ -125,7 +127,7 @@ add_subdirectory(interfaces)
 
 ## Declare a cpp executable
 # add_executable(RosIceCamera_node src/RosIceCamera_node.cpp)
-add_executable(CameraClient src/CameraClient.cpp)
+add_executable(CameraClient src/CameraClient_main.cpp src/CameraClient)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
@@ -142,6 +144,7 @@ add_executable(CameraClient src/CameraClient.cpp)
    jderobot_interfaces
    ${ZLIB_LIBRARIES}
    ${ZeroCIce_LIBRARIES}
+   ${OpenCV_LIBRARIES}
    /usr/local/lib/jderobot/libJderobotInterfaces.so
    /usr/local/lib/jderobot/libparallelIce.so
 

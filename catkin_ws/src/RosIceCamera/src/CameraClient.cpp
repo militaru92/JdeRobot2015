@@ -1,58 +1,45 @@
+#include "CameraClient.h"
+
+CameraClient::CameraClient(int argc, char **argv, std::string nodeName)
+{
+    initializeROS(argc,argv,nodeName);
+    runROSSpinner();
+    addRosImagePublisher("test",1000);
+    addRosImageSubscriber<CameraClient>("test",1000,&CameraClient::rosCallback,this);
 
 
-#include <iostream>
-#include <Ice/Ice.h>
-#include <IceUtil/IceUtil.h>
+    cv::namedWindow("Image window");
+}
 
-#include <jderobot/camera.h>
-#include <visionlib/colorspaces/colorspacesmm.h>
-#include "parallelIce/cameraClient.h"
+CameraClient::~CameraClient()
+{
+    cv::destroyWindow("Image window");
+}
 
-int main(int argc, char** argv){
+void CameraClient::rosCallback(const sensor_msgs::ImageConstPtr& image_message)
+{
+    cv_bridge::CvImagePtr cv_ptr;
 
-
-    int status;
-    Ice::CommunicatorPtr ic;
-
-    jderobot::cameraClient* camRGB;
-
-    try{
-        ic = Ice::initialize(argc,argv);
-        Ice::ObjectPrx base = ic->propertyToProxy("Cameraview.Camera.Proxy");
-        Ice::PropertiesPtr prop = ic->getProperties();
-
-        if (0==base)
-            throw "Could not create proxy";
-
-
-        camRGB = new jderobot::cameraClient(ic,"Cameraview.Camera.");
-
-        if (camRGB == NULL){
-            throw "Invalid proxy";
-        }
-        camRGB->start();
-
-        cv::Mat rgb;
-
-        while(true){
-            //jderobot::ImageDataPtr data = camRGB->getImageData(format);
-
-            camRGB->getImage(rgb);
-        }
-    }catch (const Ice::Exception& ex) {
-        std::cerr << ex << std::endl;
-        status = 1;
-    } catch (const char* msg) {
-        std::cerr << msg << std::endl;
-        status = 1;
+    try
+    {
+        cv_ptr = cv_bridge::toCvCopy(image_message, sensor_msgs::image_encodings::BGR8);
+    }
+    catch (cv_bridge::Exception& e)
+    {
+        ROS_ERROR("cv_bridge exception: %s", e.what());
+        return;
     }
 
-    if (ic)
-        ic->destroy();
+    cv::Mat image = cv_ptr->image;
 
-    camRGB->stop_thread();
-    delete(camRGB);
+    if(image.cols > 0 && image.rows > 0)
+    {
 
-    return status;
+        cv::imshow("Image window", image);
+        cv::waitKey(3);
+
+    }
+
+
 }
 
