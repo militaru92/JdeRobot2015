@@ -13,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 find_package(OpenCV REQUIRED)
+find_package( ZLIB REQUIRED )
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -129,6 +130,8 @@ add_subdirectory(interfaces)
 # add_executable(RosIceCamera_node src/RosIceCamera_node.cpp)
 add_executable(CameraClient src/CameraClient_main.cpp src/CameraClient.cpp)
 add_executable(RosImageServer src/RosImageServer_main.cpp src/RosImageServer)
+add_executable(IceImageViewer src/IceImageViewer_main.cpp src/ImageContainerI)
+
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
@@ -144,7 +147,7 @@ add_executable(RosImageServer src/RosImageServer_main.cpp src/RosImageServer)
    ${ice_LIBRARIES}
    jderobot_interfaces
    ${ZLIB_LIBRARIES}
-   ${ZeroCIce_LIBRARIES}
+   #${ZeroCIce_LIBRARIES}
    ${OpenCV_LIBRARIES}
    ${OpenCV_LIBS}
    /usr/local/lib/jderobot/libJderobotInterfaces.so
@@ -158,13 +161,27 @@ add_executable(RosImageServer src/RosImageServer_main.cpp src/RosImageServer)
    ${ice_LIBRARIES}
    jderobot_interfaces
    ${ZLIB_LIBRARIES}
-   ${ZeroCIce_LIBRARIES}
+   #${ZeroCIce_LIBRARIES}
    ${OpenCV_LIBRARIES}
    ${OpenCV_LIBS}
-   /usr/local/lib/jderobot/libJderobotInterfaces.so
-   /usr/local/lib/jderobot/libparallelIce.so
+   #/usr/local/lib/jderobot/libJderobotInterfaces.so
+   #/usr/local/lib/jderobot/libparallelIce.so
 
  )
+
+ target_link_libraries(IceImageViewer
+   ${catkin_LIBRARIES}
+   ${ice_LIBRARIES}
+   jderobot_interfaces
+   ${ZLIB_LIBRARIES}
+   #${ZeroCIce_LIBRARIES}
+   ${OpenCV_LIBRARIES}
+   ${OpenCV_LIBS}
+   #/usr/local/lib/jderobot/libJderobotInterfaces.so
+   #/usr/local/lib/jderobot/libparallelIce.so
+
+ )
+
 
 
 #############

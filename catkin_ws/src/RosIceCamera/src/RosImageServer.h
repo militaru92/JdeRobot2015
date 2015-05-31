@@ -1,10 +1,14 @@
 #ifndef ROSIMAGEPUBLISHER_H
 #define ROSIMAGEPUBLISHER_H
 
+#include <cstdlib>
+#include <zlib.h>
 #include <cv_bridge/cv_bridge.h>
+#include <sensor_msgs/image_encodings.h>
+#include <Image.h>
 #include "Ros_Ice.h"
 
-class RosImageServer : public Ros_Ice< Ice::ObjectPrx >
+class RosImageServer : public Ros_Ice< Message::ImageContainerPrx >
 {
 
 public:
