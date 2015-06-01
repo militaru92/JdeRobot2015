@@ -45,7 +45,7 @@ int main(int argc, char** argv){
 
             camRGB->getImage(rgb);
 
-            sensor_msgs::ImagePtr img_message = cv_bridge::CvImage(std_msgs::Header(), "bgr8", rgb).toImageMsg();
+            sensor_msgs::ImagePtr img_message = cv_bridge::CvImage(std_msgs::Header(), "rgb8", rgb).toImageMsg();
 
             c.rosImagePublish(img_message);
 
