@@ -18,11 +18,14 @@ int main(int argc, char **argv)
         adapter->add(object, ic->stringToIdentity("SimpleImage"));
         adapter->activate();
         ic->waitForShutdown();
-    } catch (const Ice::Exception& e)
+    }
+
+    catch (const Ice::Exception& e)
     {
         std::cerr << e << std::endl;
         status = 1;
-    } catch (const char* msg)
+    }
+    catch (const char* msg)
     {
         std::cerr << msg << std::endl;
         status = 1;
@@ -32,7 +35,8 @@ int main(int argc, char **argv)
         try
         {
             ic->destroy();
-        } catch (const Ice::Exception& e)
+        }
+        catch (const Ice::Exception& e)
         {
             std::cerr << e << std::endl;
             status = 1;

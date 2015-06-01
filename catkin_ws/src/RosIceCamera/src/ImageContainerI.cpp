@@ -12,33 +12,18 @@ ImageContainerI::~ImageContainerI()
 
 void ImageContainerI::publishImage(const Message::ImageData& IceImage, const Ice::Current&)
 {
+
     size_t dest_len = IceImage.rows * IceImage.cols * 3;
     size_t source_len = IceImage.data.size();
 
     unsigned char* origin_buf = (uchar*) malloc(dest_len);
 
-    int r = uncompress((Bytef *) origin_buf, (uLongf *) &dest_len, (const Bytef *) &(IceImage.data[0]), (uLong)source_len);
+    memcpy(origin_buf,  (unsigned char *) &(IceImage.data[0]), IceImage.rows * IceImage.cols * 3);
 
-    if(r != Z_OK)
-    {
-        std::cerr << "Error decompressing" << std::endl;
-        return;
-    }
+    cv::Mat image = cv::Mat(cvSize(IceImage.cols,IceImage.rows), IceImage.type, origin_buf);
 
-    else
-    {
-
-        cv::Mat image = cv::Mat(cvSize(IceImage.rows,IceImage.cols), IceImage.type, origin_buf);
-
-        cv::imshow("Image window", image);
-        cv::waitKey(3);
-
-
-    }
-
-
-    if (origin_buf)
-        free(origin_buf);
+    cv::imshow("Image window", image);
+    cv::waitKey(3);
 
 
 }

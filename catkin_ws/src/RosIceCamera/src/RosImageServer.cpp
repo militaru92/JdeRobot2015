@@ -40,33 +40,9 @@ void RosImageServer::rosCallback(const sensor_msgs::ImageConstPtr &image_message
         IceImage.cols = image.cols;
         IceImage.type = image.type();
 
-        ROS_INFO("Before compressing- RosServer\n");
+        IceImage.data.resize(image.rows * image.cols * 3);
+        memcpy(&(IceImage.data[0]),  (unsigned char *) image.data, image.rows * image.cols * 3);
 
-        unsigned long source_len = image.rows*image.cols*3;
-        unsigned long compress_len = compressBound(source_len);
-        unsigned char* compress_buf = (unsigned char *) malloc(compress_len);
-
-        int r = compress((Bytef *) compress_buf, (uLongf *) &compress_len, (const Bytef *) &(image.data[0]), (uLong)source_len );
-
-
-        if(r != Z_OK)
-        {
-            ROS_ERROR("Error compressing\n");
-            return;
-        }
-        else
-        {
-            IceImage.data.resize(source_len);
-            memcpy(&(IceImage.data[0]),  &(compress_buf[0]), compress_len);
-            ROS_INFO("After memcpy RosServer\n");
-        }
-
-        ROS_INFO("After compressing- RosServer\n");
-
-        if(compress_buf)
-        {
-            free(compress_buf);
-        }
 
         this->Proxy->publishImage(IceImage);
 

@@ -8,6 +8,9 @@
 #include <Image.h>
 #include "Ros_Ice.h"
 
+#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/highgui/highgui.hpp>
+
 class RosImageServer : public Ros_Ice< Message::ImageContainerPrx >
 {
 
