@@ -132,7 +132,7 @@ include_directories(
   #${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
-add_subdirectory(interfaces)
+####add_subdirectory(interfaces)
 ## Declare a cpp library
 # add_library(RosIceGazebo
 #   src/${PROJECT_NAME}/RosIceGazebo.cpp
@@ -154,7 +154,7 @@ add_dependencies(RosGazeboInterface RosIceGazebo_generate_messages_cpp)
  target_link_libraries(RosGazeboInterface
    ${catkin_LIBRARIES}
    ${ice_LIBRARIES}
-   jderobot_interfaces
+   #jderobot_interfaces
    ${ZLIB_LIBRARIES}
    #${ZeroCIce_LIBRARIES}
    ${OpenCV_LIBRARIES}
