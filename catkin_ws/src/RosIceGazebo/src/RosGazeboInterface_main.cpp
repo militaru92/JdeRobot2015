@@ -1,6 +1,7 @@
-#include "Ros_Ice.h"
+#include "MotorClient.h"
 #include "CameraClient.h"
 #include "LaserClient.h"
+#include "Pose3DMotorsClient.h"
 #include <opencv2/opencv.hpp>
 
 
@@ -14,6 +15,9 @@ int main(int argc, char **argv)
     CameraClient cameraClient2(argc,argv,"camera2");
 
     LaserClient laserClient(argc,argv,"laser");
+
+    MotorClient motorClient(argc, argv, "motor");
+
 
 
 
@@ -30,6 +34,21 @@ int main(int argc, char **argv)
         cameraClient1.addIceProxy("introrob.Camera1.Proxy",ic,1);
         cameraClient2.addIceProxy("introrob.Camera2.Proxy",ic,1);
         laserClient.addIceProxy("introrob.Laser.Proxy",ic,1);
+
+        motorClient.addIceProxy("introrob.Motors.Proxy",ic,1);
+
+        RosIceGazebo::MotorData motorMsg;
+
+        motorMsg.motorW = 0.0;
+        motorMsg.motorL = 25.0;
+        motorMsg.motorV = 25.0;
+
+        int i = 0;
+
+        while(i < 500)
+            ++i;
+
+        motorClient.rosPublish(motorMsg);
 
 
         while(ros::ok())

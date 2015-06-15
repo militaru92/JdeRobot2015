@@ -1,5 +1,5 @@
-#ifndef LASERCLIENT_H
-#define LASERCLIENT_H
+#ifndef MOTORCLIENT_H
+#define MOTORCLIENT_H
 
 #include "Ros_Ice.h"
 #include <jderobot/motors.h>
@@ -23,4 +23,4 @@ public:
 
 };
 
-#endif // LASERCLIENT_H
+#endif // MOTORCLIENT_H
