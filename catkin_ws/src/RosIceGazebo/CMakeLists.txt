@@ -60,6 +60,8 @@ file(GLOB jderobot_libraries "/usr/local/lib/jderobot/*.so")
  add_message_files(
    FILES
    Laser.msg
+   MotorData.msg
+   Pose3DMotorsData.msg
  )
 
 
