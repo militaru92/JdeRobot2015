@@ -62,6 +62,7 @@ file(GLOB jderobot_libraries "/usr/local/lib/jderobot/*.so")
    Laser.msg
    MotorData.msg
    Pose3DMotorsData.msg
+   EncodersData.msg
  )
 
 
