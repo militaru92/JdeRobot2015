@@ -3,6 +3,7 @@
 #include "CameraClient.h"
 #include "LaserClient.h"
 #include "Pose3DMotorsClient.h"
+#include "TeleOperator.h"
 #include <opencv2/opencv.hpp>
 
 
@@ -22,6 +23,8 @@ int main(int argc, char **argv)
     LaserClient laserClient(argc,argv,"laser");
 
     MotorClient motorClient(argc, argv, "motor");
+
+    TeleOperator teleOperator(argc, argv, "pioneer");
 
 
     ros::AsyncSpinner RosSpinner(4);
@@ -46,17 +49,9 @@ int main(int argc, char **argv)
         RosIceGazebo::MotorData motorMsg;
         RosIceGazebo::EncodersData encodersMsg;
 
-        motorMsg.motorW = 0.0;
+        motorMsg.motorW = -10.0;
         motorMsg.motorL = 25.0;
         motorMsg.motorV = 25.0;
-
-        int i = 0;
-
-        while(i < 500)
-            ++i;
-
-        //motorClient.rosPublish(motorMsg);
-
 
         while(ros::ok())
         {
