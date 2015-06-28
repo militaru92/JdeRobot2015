@@ -89,6 +89,7 @@ file(GLOB jderobot_libraries "/usr/local/lib/jderobot/*.so")
  generate_messages(
    DEPENDENCIES
    std_msgs
+   geometry_msgs
  )
 
 ###################################
