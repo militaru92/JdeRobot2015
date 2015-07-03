@@ -4,8 +4,8 @@ LaserClient::LaserClient(int argc, char **argv, std::string nodeName)
 {
     initializeROS(argc,argv,nodeName);
     addRosPublisher <RosIceGazebo::Laser> (nodeName,1000);
-    //addRosSubscriber(nodeName,1000,&LaserClient::rosCallback_Encoders,this);
-    addRosSubscriber(nodeName,1000,&LaserClient::rosCallback_Pose3D,this);
+    addRosSubscriber(nodeName,1000,&LaserClient::rosCallback_Encoders,this);
+    //addRosSubscriber(nodeName,1000,&LaserClient::rosCallback_Pose3D,this);
     addRosImagePublisher(nodeName + "_image",1000);
 
     Laser3DRosNode = new ros::NodeHandle;
@@ -213,6 +213,8 @@ void LaserClient::rosCallback_Encoders(RosIceGazebo::Laser laserMessage)
 
 
     float X,Y,costheta,sintheta,aux_x,aux_y;
+
+    //ROS_INFO("Encoders\n");
 
     point.z = 3.2;
 
