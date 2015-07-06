@@ -64,6 +64,7 @@ find_package(gazebo REQUIRED)
    MotorData.msg
    Pose3DMotorsData.msg
    EncodersData.msg
+   Pose3D.msg
  )
 
 
@@ -137,6 +138,15 @@ target_link_libraries(ros_camera ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES} CameraP
 add_library(ros_laser SHARED src/RosLaserPlugin.cpp)
 add_dependencies(ros_laser ros_laser_generate_messages_cpp)
 target_link_libraries(ros_laser ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES} RayPlugin)
+
+add_library(ros_pose3d SHARED src/RosPose3DPlugin.cpp)
+add_dependencies(ros_pose3d ros_pose3d_generate_messages_cpp)
+target_link_libraries(ros_pose3d ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+
+add_library(ros_encoders SHARED src/RosEncodersPlugin.cpp)
+add_dependencies(ros_encoders ros_encoders_generate_messages_cpp)
+target_link_libraries(ros_encoders ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+
 
 
 ## Declare a cpp executable

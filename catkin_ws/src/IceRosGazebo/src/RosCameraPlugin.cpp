@@ -25,7 +25,7 @@ void RosCameraPlugin::Load(sensors::SensorPtr _parent, sdf::ElementPtr _sdf)
     ImageNode = new image_transport::ImageTransport(*RosNode);
 
     ImagePublisher = new image_transport::Publisher(ImageNode->advertise(this->parentSensor->GetCamera()->GetName(), 500));
-    ROS_INFO("After Load\n");
+    ROS_INFO("ROS Publisher Loaded: %s\n",this->parentSensor->GetCamera()->GetName().c_str());
 
 }
 

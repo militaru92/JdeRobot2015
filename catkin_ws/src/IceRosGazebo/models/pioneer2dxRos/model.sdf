@@ -186,8 +186,7 @@
 		      </range>
 		    </ray>
 
-  <!--  
-		    <plugin name="laser" filename="liblaser.so" /> -->
+
                     <plugin name="laser" filename="libros_laser.so" />
 		    
 		    <always_on>1</always_on>
@@ -287,8 +286,7 @@
               </clip>
             </camera>
 
-  <!--  
-            <plugin name='camera_dump' filename='libcamera_dump.so'/> -->
+
             <plugin name='camera_dump' filename='libros_camera.so'/>
         </sensor>
             
@@ -410,8 +408,7 @@
 		          <far>15</far>
               </clip>
             </camera>
-  <!--  
-            <plugin name='camera_dump' filename='libcamera_dump.so'/> --> 
+
             <plugin name='camera_dump' filename='libros_camera.so'/>
         </sensor>
             
@@ -568,9 +565,10 @@
 			<torque>5</torque>
 		</plugin>
 		
+ -->
+                <plugin filename="libros_encoders.so" name="encoders_pioneer"/>
 
-		<plugin filename="libencoders.so" name="encoders"/>
-                <plugin filename="libpose3d_pioneer.so" name="pose3d_pioneer"/> -->
+                <plugin filename="libros_pose3d.so" name="pose3d_pioneer"/>
         
     </model>
 </sdf>

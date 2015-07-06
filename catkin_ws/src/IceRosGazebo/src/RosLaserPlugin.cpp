@@ -22,6 +22,7 @@ void RosLaserPlugin::Load(sensors::SensorPtr _parent, sdf::ElementPtr _sdf)
     this->parentSensor =  boost::dynamic_pointer_cast<sensors::RaySensor>(_parent);
     RosNode = new ros::NodeHandle;
     RosPublisher = new ros::Publisher(RosNode->advertise<IceRosGazebo::Laser>(this->parentSensor->GetName(), 500));
+    ROS_INFO("ROS Publisher Loaded: %s\n",this->parentSensor->GetName().c_str());
 }
 
 void RosLaserPlugin::OnNewLaserScans()
