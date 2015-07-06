@@ -188,6 +188,7 @@
 
   <!--  
 		    <plugin name="laser" filename="liblaser.so" /> -->
+                    <plugin name="laser" filename="libros_laser.so" />
 		    
 		    <always_on>1</always_on>
 		    <visualize>true</visualize>

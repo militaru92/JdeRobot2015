@@ -29,6 +29,7 @@ public:
 
     void rosCallback_Encoders(RosIceGazebo::Laser laserMessage);
     void rosCallback_Pose3D(RosIceGazebo::Laser laserMessage);
+    void rosCallback(RosIceGazebo::Laser laserMessage);
 
     void setRobotPos(RosIceGazebo::EncodersData encodersMessage);
 

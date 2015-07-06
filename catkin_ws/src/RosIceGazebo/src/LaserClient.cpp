@@ -6,6 +6,7 @@ LaserClient::LaserClient(int argc, char **argv, std::string nodeName)
     addRosPublisher <RosIceGazebo::Laser> (nodeName,1000);
     addRosSubscriber(nodeName,1000,&LaserClient::rosCallback_Encoders,this);
     //addRosSubscriber(nodeName,1000,&LaserClient::rosCallback_Pose3D,this);
+    //addRosSubscriber(nodeName,1000,&LaserClient::rosCallback,this);
     addRosImagePublisher(nodeName + "_image",1000);
 
     Laser3DRosNode = new ros::NodeHandle;
@@ -31,7 +32,7 @@ LaserClient::LaserClient(int argc, char **argv, std::string nodeName)
 
     visualization_msgs::Marker marker;
 
-    marker.header.frame_id = "map";
+    marker.header.frame_id = "base_link";
     marker.header.stamp = ros::Time::now();
 
     marker.ns = "basic_shapes";
@@ -104,6 +105,30 @@ LaserClient::~LaserClient()
 
 void LaserClient::publishROS(RosIceGazebo::EncodersData encodersMessage)
 {
+    /*
+    jderobot::LaserDataPtr laserData= this->Proxy->getLaserData();
+    RosIceGazebo::Laser rosLaserData;
+
+    tf::Quaternion rotation;
+
+    rotation.setEuler(0,0,encodersMessage.robottheta * DEGTORAD);
+
+    rosLaserData.numLaser = laserData->numLaser;
+    rosLaserData.distanceData = laserData->distanceData;
+    rosLaserData.robottheta = encodersMessage.robottheta;
+
+    rosLaserData.positionPose3D.position.x = encodersMessage.robotx;
+    rosLaserData.positionPose3D.position.y = encodersMessage.roboty;
+    rosLaserData.positionPose3D.position.z = 0.0;
+
+    rosLaserData.positionPose3D.orientation.w = rotation.getW();
+    rosLaserData.positionPose3D.orientation.x = rotation.getX();
+    rosLaserData.positionPose3D.orientation.y = rotation.getY();
+    rosLaserData.positionPose3D.orientation.z = rotation.getZ();
+
+    rosPublish(rosLaserData);
+    */
+
     jderobot::LaserDataPtr laserData= this->Proxy->getLaserData();
     RosIceGazebo::Laser rosLaserData;
 
@@ -126,7 +151,113 @@ void LaserClient::publishROS(geometry_msgs::Pose pose3DMessage)
 
     rosLaserData.positionPose3D = pose3DMessage;
 
+    double magnitude,w,x,y,z,squ,sqx,sqy,sqz;
+
+    magnitude = sqrt(rosLaserData.positionPose3D.orientation.w * rosLaserData.positionPose3D.orientation.w + rosLaserData.positionPose3D.orientation.x * rosLaserData.positionPose3D.orientation.x + rosLaserData.positionPose3D.orientation.y * rosLaserData.positionPose3D.orientation.y + rosLaserData.positionPose3D.orientation.z * rosLaserData.positionPose3D.orientation.z);
+
+    w = rosLaserData.positionPose3D.orientation.w / magnitude;
+    x = rosLaserData.positionPose3D.orientation.x / magnitude;
+    y = rosLaserData.positionPose3D.orientation.y / magnitude;
+    z = rosLaserData.positionPose3D.orientation.z / magnitude;
+
+    squ = w * w;
+    sqx = x * x;
+    sqy = y * y;
+    sqz = z * z;
+
+    double angle;
+
+    angle = atan2( 2 * (x * y + w * z), squ + sqx - sqy - sqz) * 180.0 / PI;
+
+    if(angle < 0)
+    {
+        angle += 360.0;
+    }
+
+    rosLaserData.robottheta = angle;
+
+
     rosPublish(rosLaserData);
+
+}
+
+
+void LaserClient::rosCallback(RosIceGazebo::Laser laserMessage)
+{
+    cv::Mat laserImage(180,360, CV_8UC3, cv::Scalar(0,0,0));
+
+    geometry_msgs::PolygonStamped laser_world;
+    geometry_msgs::Point32 point;
+
+
+    float X,Y,costheta,sintheta,aux_x,aux_y;
+
+    //ROS_INFO("Encoders\n");
+
+    point.z = 3.2;
+
+    costheta = cos(laserMessage.robottheta * DEGTORAD);
+    sintheta = sin(laserMessage.robottheta * DEGTORAD);
+
+    laser_world.header.frame_id = "base_link";
+    laser_world.header.stamp = ros::Time();
+    laser_world.header.seq = 0;
+
+    for( unsigned int i = 0 ; i < marker_array.markers.size(); ++i)
+    {
+        marker_array.markers[i].pose.orientation = laserMessage.positionPose3D.orientation;
+
+    }
+
+
+
+    cv::line(laserImage,cv::Point(180,165),cv::Point(180,180),cv::Scalar(255,0,0));
+
+
+    for (int i = laserMessage.numLaser - 1; i > 0; --i)
+    {
+        cv::line(laserImage, cv::Point(180 + ((laserMessage.distanceData[i] / 45)*(cos((i) * DEGTORAD))), 180 - ((laserMessage.distanceData[i] / 45)*(sin((i) * DEGTORAD)))), cv::Point(180 + ((laserMessage.distanceData[i + 1] / 45)*(cos((i + 1) * DEGTORAD))), 180 - ((laserMessage.distanceData[i + 1] / 45)*(sin((i + 1) * DEGTORAD)))),cv::Scalar(255,255,255));
+
+        X = laserMessage.distanceData[i] * cos(((float) i - 90.) * DEGTORAD);
+        Y = laserMessage.distanceData[i] * sin(((float) i - 90.) * DEGTORAD );
+
+        point.x = (laser_coord[0]*10. + X * laser_coord[3] - Y * laser_coord[4] + laserMessage.positionPose3D.position.x) / 100;
+        point.y = (laser_coord[1] + Y * laser_coord[3] + X * laser_coord[4] + laserMessage.positionPose3D.position.y) / 100;
+
+        aux_x = costheta * point.x - sintheta * point.y;
+        aux_y = sintheta * point.x + costheta * point.y;
+
+        point.x = aux_x;
+        point.y = aux_y;
+
+        //ROS_INFO("Point %f %f \n", point.x, point.y);
+
+        laser_world.polygon.points.push_back(point);
+    }
+
+    point.x = (laser_coord[0] * 10.0 + laserMessage.positionPose3D.position.x)/ 100;
+    point.y = (laser_coord[1] + laserMessage.positionPose3D.position.y)/ 100;
+
+    aux_x = costheta * point.x - sintheta * point.y;
+    aux_y = sintheta * point.x + costheta * point.y;
+
+    point.x = aux_x;
+    point.y = aux_y;
+
+    laser_world.polygon.points.push_back(point);
+
+    positionMarkers(point.x - marker_array.markers[0].pose.position.x, point.y - marker_array.markers[0].pose.position.y,costheta,sintheta);
+
+
+
+
+    sensor_msgs::ImagePtr image_message = cv_bridge::CvImage(std_msgs::Header(), "rgb8", laserImage).toImageMsg();
+    rosImagePublish(image_message);
+
+    Laser3DPublisher->publish(laser_world);
+
+    MarkerPublisher->publish(marker_array);
+
 
 }
 
@@ -140,11 +271,12 @@ void LaserClient::rosCallback_Pose3D(RosIceGazebo::Laser laserMessage)
 
     float X,Y;
 
-    laser_world.header.frame_id = "map";
+    laser_world.header.frame_id = "base_link";
     laser_world.header.stamp = ros::Time();
     laser_world.header.seq = 0;
 
     tf::Quaternion aux,point,rotation(laserMessage.positionPose3D.orientation.x,laserMessage.positionPose3D.orientation.y,laserMessage.positionPose3D.orientation.z,laserMessage.positionPose3D.orientation.w);
+    rotation.normalize();
 
     point.setW(0.0);
     point.setZ(3.2);
@@ -191,11 +323,13 @@ void LaserClient::rosCallback_Pose3D(RosIceGazebo::Laser laserMessage)
 
     laser_world.polygon.points.push_back(point_marker);
 
-    positionMarkers(point.getX() - marker_array.markers[0].pose.position.x, point.getY() - marker_array.markers[0].pose.position.y,rotation);
+    positionMarkers(point_marker.x - marker_array.markers[0].pose.position.x, point_marker.y - marker_array.markers[0].pose.position.y,rotation);
 
 
     sensor_msgs::ImagePtr image_message = cv_bridge::CvImage(std_msgs::Header(), "rgb8", laserImage).toImageMsg();
     rosImagePublish(image_message);
+
+    //ROS_INFO("In POSE_3D\n");
 
     Laser3DPublisher->publish(laser_world);
 
@@ -203,6 +337,8 @@ void LaserClient::rosCallback_Pose3D(RosIceGazebo::Laser laserMessage)
 
 
 }
+
+
 
 void LaserClient::rosCallback_Encoders(RosIceGazebo::Laser laserMessage)
 {
@@ -221,20 +357,14 @@ void LaserClient::rosCallback_Encoders(RosIceGazebo::Laser laserMessage)
     costheta = cos(laserMessage.positionEncoders.robottheta * DEGTORAD);
     sintheta = sin(laserMessage.positionEncoders.robottheta * DEGTORAD);
 
-    laser_world.header.frame_id = "map";
+    laser_world.header.frame_id = "base_link";
     laser_world.header.stamp = ros::Time();
     laser_world.header.seq = 0;
 
     tf::Quaternion rotation;
 
     rotation.setEuler(0,0,laserMessage.positionEncoders.robottheta * DEGTORAD);
-/*
 
-    marker_array.markers[0].pose.orientation.x = rotation.getX();
-    marker_array.markers[0].pose.orientation.y = rotation.getY();
-    marker_array.markers[0].pose.orientation.z = rotation.getZ();
-    marker_array.markers[0].pose.orientation.w = rotation.getW();
-*/
     for( unsigned int i = 0 ; i < marker_array.markers.size(); ++i)
     {
         marker_array.markers[i].pose.orientation.x = rotation.getX();

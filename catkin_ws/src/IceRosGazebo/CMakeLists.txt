@@ -58,6 +58,15 @@ find_package(gazebo REQUIRED)
 #   Message2.msg
 # )
 
+ add_message_files(
+   FILES
+   Laser.msg
+   MotorData.msg
+   Pose3DMotorsData.msg
+   EncodersData.msg
+ )
+
+
 ## Generate services in the 'srv' folder
 # add_service_files(
 #   FILES
@@ -78,6 +87,12 @@ find_package(gazebo REQUIRED)
 #   geometry_msgs#   sensor_msgs#   std_msgs
 # )
 
+ generate_messages(
+   DEPENDENCIES
+   std_msgs
+   geometry_msgs
+ )
+
 ###################################
 ## catkin specific configuration ##
 ###################################
@@ -90,7 +105,7 @@ find_package(gazebo REQUIRED)
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES IceRosGazebo
-#  CATKIN_DEPENDS cv_bridge gazebo_ros geometry_msgs image_transport roscpp rospy sensor_msgs std_msgs
+  CATKIN_DEPENDS message_runtime #cv_bridge gazebo_ros geometry_msgs image_transport roscpp rospy sensor_msgs std_msgs
   DEPENDS
   roscpp
   gazebo
@@ -116,7 +131,12 @@ include_directories(
 # )
 
 add_library(ros_camera SHARED src/RosCameraPlugin.cpp)
+add_dependencies(ros_camera ros_camera_generate_messages_cpp)
 target_link_libraries(ros_camera ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES} CameraPlugin)
+
+add_library(ros_laser SHARED src/RosLaserPlugin.cpp)
+add_dependencies(ros_laser ros_laser_generate_messages_cpp)
+target_link_libraries(ros_laser ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES} RayPlugin)
 
 
 ## Declare a cpp executable

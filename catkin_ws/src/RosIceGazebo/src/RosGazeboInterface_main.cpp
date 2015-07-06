@@ -52,7 +52,7 @@ int main(int argc, char **argv)
 
         RosIceGazebo::MotorData motorMsg;
         RosIceGazebo::EncodersData encodersMsg;
-        //geometry_msgs::Pose pose3DMsg;
+        geometry_msgs::Pose pose3DMsg;
 
         motorMsg.motorW = -10.0;
         motorMsg.motorL = 25.0;
