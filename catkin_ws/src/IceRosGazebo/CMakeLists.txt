@@ -151,27 +151,27 @@ include_directories(
 # )
 
 add_library(ros_camera SHARED src/RosCameraPlugin.cpp)
-add_dependencies(ros_camera ros_camera_generate_messages_cpp)
+add_dependencies(ros_camera ${PROJECT_NAME}_generate_messages_cpp)
 target_link_libraries(ros_camera ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES} CameraPlugin)
 
 add_library(ros_laser SHARED src/RosLaserPlugin.cpp)
-add_dependencies(ros_laser ros_laser_generate_messages_cpp)
+add_dependencies(ros_laser ${PROJECT_NAME}_generate_messages_cpp)
 target_link_libraries(ros_laser ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES} RayPlugin)
 
 add_library(ros_pose3d SHARED src/RosPose3DPlugin.cpp)
-add_dependencies(ros_pose3d ros_pose3d_generate_messages_cpp)
+add_dependencies(ros_pose3d ${PROJECT_NAME}_generate_messages_cpp)
 target_link_libraries(ros_pose3d ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 
 add_library(ros_encoders SHARED src/RosEncodersPlugin.cpp)
-add_dependencies(ros_encoders ros_encoders_generate_messages_cpp)
+add_dependencies(ros_encoders ${PROJECT_NAME}_generate_messages_cpp)
 target_link_libraries(ros_encoders ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 
 add_library(ros_motors SHARED src/RosMotorsPlugin.cpp)
-add_dependencies(ros_motors ros_motors_generate_messages_cpp)
+add_dependencies(ros_motors ${PROJECT_NAME}_generate_messages_cpp)
 target_link_libraries(ros_motors ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES} )
 
 add_library(ros_pose3dencoders SHARED src/RosPose3DEncodersPlugin.cpp)
-add_dependencies(ros_pose3dencoders ros_pose3dencoders_generate_messages_cpp)
+add_dependencies(ros_pose3dencoders ${PROJECT_NAME}_generate_messages_cpp)
 target_link_libraries(ros_pose3dencoders ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 
 file(GLOB CPP_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/*Interface*.cpp)
@@ -179,7 +179,7 @@ file(GLOB CPP_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/*Interface*.cpp)
 
 #add_executable(IceGazeboInterface src/IceGazeboInterface_main.cpp src/EncodersInterface.cpp)
 add_executable(IceGazeboInterface ${CPP_SRC})
-add_dependencies(IceGazeboInterface  IceGazeboInterface_generate_messages_cpp)
+add_dependencies(IceGazeboInterface ${PROJECT_NAME}_generate_messages_cpp)
 
  target_link_libraries(IceGazeboInterface
    ${catkin_LIBRARIES}
