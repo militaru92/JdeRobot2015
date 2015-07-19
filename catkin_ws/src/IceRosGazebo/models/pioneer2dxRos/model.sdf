@@ -550,14 +550,14 @@
                 </limit>
             </axis>
         </joint>
-          <!--  
-        <plugin filename="libmotors.so" name="motors">
+
+        <plugin filename="libros_motors.so" name="motors">
 			<left_joint>left_wheel_hinge</left_joint>
 			<right_joint>right_wheel_hinge</right_joint>
 			<torque>5</torque>
 		</plugin>
 
-		<plugin filename="libpose3dencoders.so" name="pose3dencoders">
+                <plugin filename="libros_pose3dencoders.so" name="pose3dencoders">
 			<left_joint_pose3dencoders_pan>pan_joint_right</left_joint_pose3dencoders_pan>
 			<left_joint_pose3dencoders_tilt>tilt_joint_right</left_joint_pose3dencoders_tilt>
 			<right_joint_pose3dencoders_pan>pan_joint_left</right_joint_pose3dencoders_pan>
@@ -565,7 +565,7 @@
 			<torque>5</torque>
 		</plugin>
 		
- -->
+
                 <plugin filename="libros_encoders.so" name="encoders_pioneer"/>
 
                 <plugin filename="libros_pose3d.so" name="pose3d_pioneer"/>

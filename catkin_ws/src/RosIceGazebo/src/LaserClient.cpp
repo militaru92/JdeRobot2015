@@ -4,8 +4,8 @@ LaserClient::LaserClient(int argc, char **argv, std::string nodeName)
 {
     initializeROS(argc,argv,nodeName);
     addRosPublisher <RosIceGazebo::Laser> (nodeName,1000);
-    addRosSubscriber(nodeName,1000,&LaserClient::rosCallback_Encoders,this);
-    //addRosSubscriber(nodeName,1000,&LaserClient::rosCallback_Pose3D,this);
+    //addRosSubscriber(nodeName,1000,&LaserClient::rosCallback_Encoders,this);
+    addRosSubscriber(nodeName,1000,&LaserClient::rosCallback_Pose3D,this);
     //addRosSubscriber(nodeName,1000,&LaserClient::rosCallback,this);
     addRosImagePublisher(nodeName + "_image",1000);
 
@@ -32,45 +32,46 @@ LaserClient::LaserClient(int argc, char **argv, std::string nodeName)
 
     visualization_msgs::Marker marker;
 
-    marker.header.frame_id = "base_link";
+    marker.header.frame_id = "map";
     marker.header.stamp = ros::Time::now();
 
     marker.ns = "basic_shapes";
     marker.id = 0;
 
-    marker.type = visualization_msgs::Marker::CUBE;
+    marker.type = visualization_msgs::Marker::MESH_RESOURCE;
+
+    marker.mesh_resource = "package://RosIceGazebo/meshes/chassis.dae";
 
     marker.action = visualization_msgs::Marker::ADD;
 
-    marker.pose.position.x = 0;
-    marker.pose.position.y = 0;
-    marker.pose.position.z = 5.0;
-
-
-    marker.scale.x = 10.0;
-    marker.scale.y = 10.0;
-    marker.scale.z = 10.0;
+    marker.scale.x = 1.0;
+    marker.scale.y = 1.0;
+    marker.scale.z = 1.0;
 
     marker.color.r = 1.0f;
     marker.color.g = 0.0f;
     marker.color.b = 0.0f;
     marker.color.a = 1.0;
 
+    marker.pose = getPose(0, 0, 0.04, 0, 0, 0);
 
-    marker_array.markers.push_back(marker);
+
+    //marker_array.markers.push_back(marker);
 
     marker.id = 1;
 
     marker.type = visualization_msgs::Marker::SPHERE;
-
+/*
     marker.pose.position.x = 0.0;
     marker.pose.position.y = 7.5;
     marker.pose.position.z = 2.5;
+*/
 
+    marker.pose = getPose(-0.200, 0.0, -0.12, 0.0, 0.0, 0.0);
 
-    marker.scale.x = 5;
-    marker.scale.y = 5;
-    marker.scale.z = 5;
+    marker.scale.x = 0.04;
+    marker.scale.y = 0.04;
+    marker.scale.z = 0.04;
 
     marker.color.r = 0.0f;
     marker.color.g = 0.0f;
@@ -78,15 +79,70 @@ LaserClient::LaserClient(int argc, char **argv, std::string nodeName)
     marker.color.a = 1.0;
 
 
-    marker_array.markers.push_back(marker);
+    //marker_array.markers.push_back(marker);
 
     marker.id = 2;
-
+/*
     marker.pose.position.x = 0.0;
     marker.pose.position.y = -7.5;
     marker.pose.position.z = 2.5;
+*/
+
+    marker.type = visualization_msgs::Marker::CYLINDER;
+
+    marker.pose = getPose(0.1, -0.17, 0.05, 0, 1.5707, 1.5707);
+
+    marker.scale.x = 0.11;
+    marker.scale.y = 0.11;
+    marker.scale.z = 0.05;
+
+    //marker_array.markers.push_back(marker);
+
+    marker.id = 3;
+
+    marker.type = visualization_msgs::Marker::CYLINDER;
+
+    marker.pose = getPose(0.1, 0.17, 0.05, 0, 1.5707, 1.5707);
+
+    marker.scale.x = 0.11;
+    marker.scale.y = 0.11;
+    marker.scale.z = 0.05;
+
+    //marker_array.markers.push_back(marker);
+
+    marker.id = 4;
+
+    marker.type = visualization_msgs::Marker::MESH_RESOURCE;
+
+    marker.mesh_resource = "package://RosIceGazebo/meshes/hokuyo.dae";
+    marker.pose = getPose(0.22, 0.0, 0.3, 0, 0, 0);
+
+    marker.scale.x = 1;
+    marker.scale.y = 1;
+    marker.scale.z = 1;
+
+    //marker_array.markers.push_back(marker);
+
+
+    marker.id = 5;
+
+    marker.type = visualization_msgs::Marker::MESH_RESOURCE;
+
+    marker.mesh_resource = "package://RosIceGazebo/meshes/sonyvid30_mid.dae";
+    //marker.pose = getPose(1.5, 1.1, 1.3, -1.57, 0, 0);
+    marker.pose = getPose(0.5, 0.1, 0.3, -1.57, 0, 0);
+
+    marker.scale.x = 10;
+    marker.scale.y = 10;
+    marker.scale.z = 10;
 
     marker_array.markers.push_back(marker);
+
+    ROS_INFO("SIZE: -- %d\n",(int) marker_array.markers.size());
+
+
+
+
 
 
 
@@ -199,7 +255,7 @@ void LaserClient::rosCallback(RosIceGazebo::Laser laserMessage)
     costheta = cos(laserMessage.robottheta * DEGTORAD);
     sintheta = sin(laserMessage.robottheta * DEGTORAD);
 
-    laser_world.header.frame_id = "base_link";
+    laser_world.header.frame_id = "map";
     laser_world.header.stamp = ros::Time();
     laser_world.header.seq = 0;
 
@@ -271,7 +327,7 @@ void LaserClient::rosCallback_Pose3D(RosIceGazebo::Laser laserMessage)
 
     float X,Y;
 
-    laser_world.header.frame_id = "base_link";
+    laser_world.header.frame_id = "map";
     laser_world.header.stamp = ros::Time();
     laser_world.header.seq = 0;
 
@@ -282,12 +338,12 @@ void LaserClient::rosCallback_Pose3D(RosIceGazebo::Laser laserMessage)
     point.setZ(3.2);
     point_marker.z = 3.2;
 
-
+/*
     for( unsigned int i = 0 ; i < marker_array.markers.size(); ++i)
     {
         marker_array.markers[i].pose.orientation = laserMessage.positionPose3D.orientation;
     }
-
+*/
 
 
 
@@ -323,7 +379,7 @@ void LaserClient::rosCallback_Pose3D(RosIceGazebo::Laser laserMessage)
 
     laser_world.polygon.points.push_back(point_marker);
 
-    positionMarkers(point_marker.x - marker_array.markers[0].pose.position.x, point_marker.y - marker_array.markers[0].pose.position.y,rotation);
+    //positionMarkers(point_marker.x - marker_array.markers[0].pose.position.x, point_marker.y - marker_array.markers[0].pose.position.y,rotation);
 
 
     sensor_msgs::ImagePtr image_message = cv_bridge::CvImage(std_msgs::Header(), "rgb8", laserImage).toImageMsg();
@@ -357,7 +413,7 @@ void LaserClient::rosCallback_Encoders(RosIceGazebo::Laser laserMessage)
     costheta = cos(laserMessage.positionEncoders.robottheta * DEGTORAD);
     sintheta = sin(laserMessage.positionEncoders.robottheta * DEGTORAD);
 
-    laser_world.header.frame_id = "base_link";
+    laser_world.header.frame_id = "map";
     laser_world.header.stamp = ros::Time();
     laser_world.header.seq = 0;
 
@@ -493,4 +549,27 @@ void LaserClient::positionMarkers(float x, float y, tf::Quaternion rotation)
     }
 
 
+}
+
+geometry_msgs::Pose LaserClient::getPose(double x, double y, double z, double roll, double pitch, double yaw)
+{
+    geometry_msgs::Pose pose;
+
+    pose.position.x = x;
+    pose.position.y = y;
+    pose.position.z = z;
+
+    tf::Quaternion tf_q;
+
+    tf_q.setEuler(yaw,pitch,roll);
+
+    pose.orientation.w = tf_q.getW();
+    pose.orientation.x = tf_q.getX();
+    pose.orientation.y = tf_q.getY();
+    pose.orientation.z = tf_q.getZ();
+
+    //ROS_INFO("POSE q: %lf %lf %lf %lf \n",pose.orientation.w,pose.orientation.x,pose.orientation.y,pose.orientation.z);
+
+
+    return pose;
 }

@@ -17,7 +17,7 @@ RosEncodersPlugin::~RosEncodersPlugin()
     delete RosNode;
 }
 
-void RosEncodersPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr)
+void RosEncodersPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
 {
     model = _parent;
     updateConnection = event::Events::ConnectWorldUpdateBegin( boost::bind(&RosEncodersPlugin::OnUpdate, this) );

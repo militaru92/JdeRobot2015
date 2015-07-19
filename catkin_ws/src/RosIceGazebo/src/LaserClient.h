@@ -12,6 +12,7 @@
 #include <RosIceGazebo/Laser.h>
 #include <RosIceGazebo/EncodersData.h>
 #include <geometry_msgs/Pose.h>
+//#include <geometry_msgs/Vector3.h>
 #include <visionlib/colorspaces/colorspacesmm.h>
 #include <tf/tf.h>
 
@@ -37,6 +38,10 @@ private:
 
     void positionMarkers(float x, float y, float costheta, float sintheta);
     void positionMarkers(float x, float y, tf::Quaternion rotation);
+
+    geometry_msgs::Pose getPose(double x, double y, double z, double roll, double pitch, double yaw);
+
+
 
     std::string ImageWindow;
     float laser_coord[5];

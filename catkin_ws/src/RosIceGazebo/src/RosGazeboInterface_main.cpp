@@ -17,9 +17,9 @@ int main(int argc, char **argv)
     CameraClient cameraClient1(argc,argv,"camera1");
     CameraClient cameraClient2(argc,argv,"camera2");
 
-    EncodersClient encodersClient(argc,argv,"encoders");
+    //EncodersClient encodersClient(argc,argv,"encoders");
 
-    //Pose3DClient pose3DClient(argc,argv,"pose3d");
+    Pose3DClient pose3DClient(argc,argv,"pose3d");
 
 
     LaserClient laserClient(argc,argv,"laser");
@@ -42,9 +42,9 @@ int main(int argc, char **argv)
         cameraClient1.addIceProxy("introrob.Camera1.Proxy",ic,1);
         cameraClient2.addIceProxy("introrob.Camera2.Proxy",ic,1);
 
-        encodersClient.addIceProxy("introrob.Encoders.Proxy",ic,1);
+        //encodersClient.addIceProxy("introrob.Encoders.Proxy",ic,1);
 
-        //pose3DClient.addIceProxy("introrob.Pose3D.Proxy",ic,1);
+        pose3DClient.addIceProxy("introrob.Pose3D.Proxy",ic,1);
 
         laserClient.addIceProxy("introrob.Laser.Proxy",ic,1);
 
@@ -63,11 +63,11 @@ int main(int argc, char **argv)
             cameraClient1.publishROS();
             cameraClient2.publishROS();
 
-            encodersMsg = encodersClient.publishROS();
-            //pose3DMsg = pose3DClient.publishROS();
+            //encodersMsg = encodersClient.publishROS();
+            pose3DMsg = pose3DClient.publishROS();
 
-            laserClient.publishROS(encodersMsg);
-            //laserClient.publishROS(pose3DMsg);
+            //laserClient.publishROS(encodersMsg);
+            laserClient.publishROS(pose3DMsg);
 
         }
 

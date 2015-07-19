@@ -20,6 +20,8 @@ private:
     ros::NodeHandle* RosNode;
     ros::Publisher*  RosPublisher;
     ros::Subscriber* RosSubscriber;
+    ros::ServiceClient* RosServiceClient;
+    ros::ServiceServer* RosServiceServer;
 
     image_transport::ImageTransport* ImageNode;
     image_transport::Publisher* ImagePublisher;
@@ -45,6 +47,8 @@ public:
         RosSpinner = NULL;
         RosPublisher = NULL;
         RosSubscriber = NULL;
+        RosServiceClient = NULL;
+        RosServiceServer = NULL;
 
         ImageNode = NULL;
         ImagePublisher = NULL;
@@ -69,9 +73,17 @@ public:
     {
 
         //ROS_INFO("Destructor Bridge\n");
-        delete ImageNode;
-        delete RosNode;
 
+
+        if(RosServiceClient)
+        {
+            delete RosServiceClient;
+        }
+
+        if(RosServiceServer)
+        {
+            delete RosServiceServer;
+        }
 
         if(RosPublisher)
         {
@@ -116,6 +128,9 @@ public:
 
         }
 
+        delete ImageNode;
+        delete RosNode;
+
 
     }
 
@@ -134,10 +149,11 @@ public:
         RosPublisher = NULL;
         RosSubscriber = NULL;
 
+        RosServiceClient = NULL;
+        RosServiceServer = NULL;
+
         ImagePublisher = NULL;
         ImageSubscriber = NULL;
-
-
 
 
         return 0;
@@ -244,6 +260,18 @@ public:
 
     }
 
+    template <class ROS_DATA, class ROS_CLASS>
+    void addRosServiceServer(std::string rosTopic, bool(ROS_CLASS::*callback)(ROS_DATA), ROS_CLASS *rosObject)
+    {
+        RosServiceServer = new ros::ServiceServer(RosNode->advertiseService(rosTopic, callback,rosObject));
+    }
+
+    template <class ROS_DATA>
+    void addRosServiceClient(std::string rosTopic)
+    {
+        RosServiceClient = new ros::ServiceClient(RosNode->serviceClient<ROS_DATA>(rosTopic));
+    }
+
 
     /**
      * @brief Method to publish a ROS message
@@ -254,6 +282,12 @@ public:
     {
         //ROS_INFO("Publisher message %ld \n", message.num);
         RosPublisher->publish(message);
+    }
+
+    template <class ROS_DATA>
+    void rosServiceCall(ROS_DATA &message)
+    {
+        RosServiceClient->call(message);
     }
 
     void rosImagePublish(sensor_msgs::ImagePtr& image_message)

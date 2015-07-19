@@ -22,7 +22,7 @@ public:
     RosEncodersPlugin();
     ~RosEncodersPlugin();
 
-    virtual void Load(physics::ModelPtr _parent, sdf::ElementPtr);
+    virtual void Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf);
 
 
 private:

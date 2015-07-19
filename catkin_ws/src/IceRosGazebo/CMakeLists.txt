@@ -63,17 +63,17 @@ find_package(gazebo REQUIRED)
    Laser.msg
    MotorData.msg
    Pose3DMotorsData.msg
+   Pose3DEncodersData.msg
    EncodersData.msg
    Pose3D.msg
  )
 
 
 ## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
-#   Service1.srv
-#   Service2.srv
-# )
+ add_service_files(
+   FILES
+   MotorsSrv.srv
+ )
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -120,11 +120,30 @@ link_directories(${GAZEBO_LIBRARY_DIRS})
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 # include_directories(include)
+
+set(slice_output_dir ${CMAKE_CURRENT_SOURCE_DIR}/interfaces/cpp)
+
+find_library(ice_LIBRARY1 Ice)
+find_library(ice_LIBRARY2 IceUtil)
+find_library(ice_LIBRARY3 IceStorm)
+list(APPEND ice_LIBRARIES
+    ${ice_LIBRARY1}
+    ${ice_LIBRARY2}
+    ${ice_LIBRARY3}
+)
+
 include_directories(
   ${catkin_INCLUDE_DIRS}
+  ${slice_output_dir}
+  ${slice_output_dir}/jderobot
+  /usr/local/include/jderobot
+  ${OpenCV_INCLUDE_DIRS}
   ${Boost_INCLUDE_DIR}
   ${GAZEBO_INCLUDE_DIRS}
+  #${CMAKE_CURRENT_SOURCE_DIR}/include
 )
+
+#add_subdirectory(interfaces)
 
 ## Declare a cpp library
 # add_library(IceRosGazebo
@@ -146,6 +165,59 @@ target_link_libraries(ros_pose3d ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 add_library(ros_encoders SHARED src/RosEncodersPlugin.cpp)
 add_dependencies(ros_encoders ros_encoders_generate_messages_cpp)
 target_link_libraries(ros_encoders ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+
+add_library(ros_motors SHARED src/RosMotorsPlugin.cpp)
+add_dependencies(ros_motors ros_motors_generate_messages_cpp)
+target_link_libraries(ros_motors ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES} )
+
+add_library(ros_pose3dencoders SHARED src/RosPose3DEncodersPlugin.cpp)
+add_dependencies(ros_pose3dencoders ros_pose3dencoders_generate_messages_cpp)
+target_link_libraries(ros_pose3dencoders ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+
+file(GLOB CPP_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/*Interface*.cpp)
+
+
+#add_executable(IceGazeboInterface src/IceGazeboInterface_main.cpp src/EncodersInterface.cpp)
+add_executable(IceGazeboInterface ${CPP_SRC})
+add_dependencies(IceGazeboInterface  IceGazeboInterface_generate_messages_cpp)
+
+ target_link_libraries(IceGazeboInterface
+   ${catkin_LIBRARIES}
+   ${ice_LIBRARIES}
+   #jderobot_interfaces
+   ${ZLIB_LIBRARIES}
+   #${ZeroCIce_LIBRARIES}
+   ${OpenCV_LIBRARIES}
+   ${OpenCV_LIBS}
+   /usr/local/lib/jderobot/libJderobotInterfaces.so
+   /usr/local/lib/jderobot/libparallelIce.so
+   /usr/local/lib/jderobot/libcolorspaces.so
+   /usr/local/lib/jderobot/libcolorspacesmm.so
+
+ )
+
+add_executable(encoders_test src/main.cpp)
+add_dependencies(encoders_test  encoders_test_generate_messages_cpp)
+
+ target_link_libraries(encoders_test
+   ${catkin_LIBRARIES}
+   ${ice_LIBRARIES}
+   #jderobot_interfaces
+   ${ZLIB_LIBRARIES}
+   #${ZeroCIce_LIBRARIES}
+   ${OpenCV_LIBRARIES}
+   ${OpenCV_LIBS}
+   /usr/local/lib/jderobot/libJderobotInterfaces.so
+   /usr/local/lib/jderobot/libparallelIce.so
+   /usr/local/lib/jderobot/libcolorspaces.so
+   /usr/local/lib/jderobot/libcolorspacesmm.so
+
+ )
+
+#add_library(ros_motors SHARED src/RosMotorsPlugin.cpp)
+#add_dependencies(ros_motors ros_motors_generate_messages_cpp)
+#target_link_libraries(ros_motors ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+
 
 
 

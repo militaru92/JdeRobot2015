@@ -14,7 +14,6 @@ void ImageContainerI::publishImage(const Message::ImageData& IceImage, const Ice
 {
 
     size_t dest_len = IceImage.rows * IceImage.cols * 3;
-    size_t source_len = IceImage.data.size();
 
     unsigned char* origin_buf = (uchar*) malloc(dest_len);
 

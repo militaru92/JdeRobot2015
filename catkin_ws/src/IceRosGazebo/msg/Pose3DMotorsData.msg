@@ -6,3 +6,9 @@ float32 tilt
 float32 roll
 float32 panSpeed
 float32 tiltSpeed
+float32 maxPan
+float32 minPan
+float32 maxTilt
+float32 minTilt
+float32 maxPanSpeed
+float32 maxTiltSpeed
