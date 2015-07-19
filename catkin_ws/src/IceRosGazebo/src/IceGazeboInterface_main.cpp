@@ -5,6 +5,7 @@
 #include "CameraInterface.h"
 #include "MotorsInterface.h"
 #include "Pose3DEncodersInterface.h"
+#include "Pose3DMotorsInterface.h"
 
 
 int main(int argc, char **argv)
@@ -108,37 +109,35 @@ int main(int argc, char **argv)
         adapter_pose3dencoders2->activate();
 
 
-/*
 
-        std::string Endpoints3 = prop->getProperty("Pose3DMotors1.Endpoints");
-        std::cout << "Pose3DMotors1 Endpoints > " << Endpoints3 << std::endl;
-        std::string Endpoints4 = prop->getProperty("Pose3DMotors2.Endpoints");
-        std::cout << "Pose3DMotors2 Endpoints > " << Endpoints4 << std::endl;
+        Endpoints = prop->getProperty("Pose3DMotors1.Endpoints");
+        std::cout << "Pose3DMotors1 Endpoints > " << Endpoints << std::endl;
 
 
+        Ice::ObjectAdapterPtr adapter_motors_encoders1 = ic->createObjectAdapterWithEndpoints("Pose3DMotors1", Endpoints);
 
 
-        Ice::ObjectAdapterPtr adapter3 =
-                ic->createObjectAdapterWithEndpoints("Pose3DMotors1", Endpoints3);
-        Ice::ObjectAdapterPtr adapter4 =
-                ic->createObjectAdapterWithEndpoints("Pose3DMotors2", Endpoints4);
+        Ice::ObjectPtr object_motors_encoders1 = new Pose3DMotorsInterface(argc,argv,"pioneer_pose3dencoders_left_motors");
 
 
 
-
-        Ice::ObjectPtr object3 = new Pose3DMotorsI(base);
-        Ice::ObjectPtr object4 = new Pose3DMotorsII(base);
+        adapter_motors_encoders1->add(object_motors_encoders1, ic->stringToIdentity("Pose3DMotors1"));
 
 
 
-
-        adapter3->add(object3, ic->stringToIdentity("Pose3DMotors1"));
-        adapter4->add(object4, ic->stringToIdentity("Pose3DMotors2"));
+        adapter_motors_encoders1->activate();
 
 
-        adapter3->activate();
-        adapter4->activate();
-*/
+        Endpoints = prop->getProperty("Pose3DMotors2.Endpoints");
+        std::cout << "Pose3DMotors2 Endpoints > " << Endpoints << std::endl;
+
+        Ice::ObjectAdapterPtr adapter_motors_encoders2 = ic->createObjectAdapterWithEndpoints("Pose3DMotors2", Endpoints);
+
+        Ice::ObjectPtr object_motors_encoders2 = new Pose3DMotorsInterface(argc,argv,"pioneer_pose3dencoders_right_motors");
+        adapter_motors_encoders2->add(object_motors_encoders2, ic->stringToIdentity("Pose3DMotors2"));
+
+        adapter_motors_encoders2->activate();
+
         std::cout <<"Before\n"<<std::endl;
 
         ic->waitForShutdown();

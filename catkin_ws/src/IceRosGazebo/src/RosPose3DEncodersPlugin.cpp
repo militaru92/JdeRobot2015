@@ -267,8 +267,18 @@ void RosPose3DEncodersPlugin::OnUpdate()
     RosPublisher_Camera_Left_Encoder->publish(encoder_left_camera);
     RosPublisher_Camera_Right_Encoder->publish(encoder_right_camera);
 
-    RosPublisher_Camera_Left_Motor->publish(motor_left_camera);
-    RosPublisher_Camera_Right_Motor->publish(motor_right_camera);
+    IceRosGazebo::Pose3DMotorsData motor_left_camera_local;
+    IceRosGazebo::Pose3DMotorsData motor_right_camera_local;
+
+    motor_left_camera_local.pan = encoder_left_camera.pan;
+    motor_left_camera_local.tilt = encoder_left_camera.tilt;
+
+
+    motor_right_camera_local.pan = encoder_right_camera.pan;
+    motor_right_camera_local.tilt = encoder_right_camera.tilt;
+
+    RosPublisher_Camera_Left_Motor->publish(motor_left_camera_local);
+    RosPublisher_Camera_Right_Motor->publish(motor_right_camera_local);
 
 
 

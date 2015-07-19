@@ -8,7 +8,7 @@ LaserInterface::LaserInterface(int argc, char **argv, std::string nodeName)
 
     laserData = new jderobot::LaserData();
 
-    myfile.open("Ros.txt");
+    //myfile.open("Ros.txt");
 
 
 }
@@ -34,16 +34,16 @@ void LaserInterface::rosCallback(IceRosGazebo::Laser laserMsg)
 
     for(int i = 0 ; i < laserData->numLaser; ++i)
     {
-       laserData->distanceData[i] = laserMsg.distanceData[i]*1000;
+       laserData->distanceData[i] = laserMsg.distanceData[i];
     }
-
+/*
     for(int i = 0 ; i < laserMsg.numLaser; ++i)
     {
        myfile << laserMsg.distanceData[i] * 1000<< " ";
     }
 
     myfile <<laserMsg.numLaser<< std::endl;
-
+*/
 
 
 
