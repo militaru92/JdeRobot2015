@@ -9,8 +9,8 @@ Pose3DMotorsInterface::Pose3DMotorsInterface(int argc, char **argv, std::string 
     pose3DMotorsParamsData = new jderobot::Pose3DMotorsParams();
 
     initializeROS(argc,argv,nodeName);
-    addRosSubscriber<IceRosGazebo::Pose3DMotorsData>(nodeName,500,&Pose3DMotorsInterface::rosCallback,this);
-    addRosPublisher<IceRosGazebo::Pose3DMotorsData>(nodeName + "_sub",500);
+    addRosSubscriber<RosIceMessage::Pose3DMotorsData>(nodeName,500,&Pose3DMotorsInterface::rosCallback,this);
+    addRosPublisher<RosIceMessage::Pose3DMotorsData>(nodeName + "_sub",500);
 
     pose3DMotorsParamsData->maxPan = 0;
     pose3DMotorsParamsData->minPan = 0;
@@ -54,7 +54,7 @@ jderobot::Pose3DMotorsParamsPtr Pose3DMotorsInterface::getPose3DMotorsParams(con
 Ice::Int Pose3DMotorsInterface::setPose3DMotorsData(const jderobot::Pose3DMotorsDataPtr & data, const Ice::Current&)
 {
 
-    IceRosGazebo::Pose3DMotorsData Msg;
+    RosIceMessage::Pose3DMotorsData Msg;
 
     Msg.x = data->x;
     Msg.y = data->y;
@@ -73,7 +73,7 @@ Ice::Int Pose3DMotorsInterface::setPose3DMotorsData(const jderobot::Pose3DMotors
 
 
 
-void Pose3DMotorsInterface::rosCallback(IceRosGazebo::Pose3DMotorsData pose3DMotorsMsg)
+void Pose3DMotorsInterface::rosCallback(RosIceMessage::Pose3DMotorsData pose3DMotorsMsg)
 {
 
     pose3DMotorsData->pan = pose3DMotorsMsg.pan;

@@ -2,8 +2,8 @@
 #define MOTORSINTERFACE_H
 
 #include <jderobot/motors.h>
-#include <IceRosGazebo/MotorData.h>
-#include <IceRosGazebo/MotorsSrv.h>
+#include <RosIceMessage/MotorData.h>
+#include <RosIceMessage/MotorsSrv.h>
 #include "Ros_Ice.h"
 
 #include <fstream>
@@ -28,7 +28,7 @@ public:
 
 private:
 
-    IceRosGazebo::MotorData motorMsg;
+    RosIceMessage::MotorData motorMsg;
 
 
 

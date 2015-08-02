@@ -2,7 +2,7 @@
 #define ENCODERSCLIENT_H
 
 #include "Ros_Ice.h"
-#include <RosIceGazebo/EncodersData.h>
+#include <RosIceMessage/EncodersData.h>
 #include <encoders.h>
 
 
@@ -14,9 +14,9 @@ public:
     EncodersClient(int argc, char **argv, std::string nodeName);
     ~EncodersClient();
 
-    RosIceGazebo::EncodersData publishROS();
+    RosIceMessage::EncodersData publishROS();
 
-    void rosCallback(RosIceGazebo::EncodersData encodersMessage);
+    void rosCallback(RosIceMessage::EncodersData encodersMessage);
 
 
 

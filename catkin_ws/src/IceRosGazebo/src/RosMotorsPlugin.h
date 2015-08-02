@@ -7,8 +7,8 @@
 #include <gazebo/physics/physics.hh>
 #include <gazebo/common/common.hh>
 #include <gazebo/transport/transport.hh>
-#include <IceRosGazebo/MotorData.h>
-#include <IceRosGazebo/MotorsSrv.h>
+#include <RosIceMessage/MotorData.h>
+#include <RosIceMessage/MotorsSrv.h>
 
 
 namespace gazebo
@@ -52,11 +52,11 @@ private:
     ros::Subscriber* RosSubscriber;
     ros::ServiceServer* RosServer;
 
-    IceRosGazebo::MotorData motorMsg;
+    RosIceMessage::MotorData motorMsg;
 
-    void rosCallback(IceRosGazebo::MotorData motorMsg);
+    void rosCallback(RosIceMessage::MotorData motorMsg);
 
-    bool rosServerFunction(IceRosGazebo::MotorsSrv::Request &req, IceRosGazebo::MotorsSrv::Response &res);
+    bool rosServerFunction(RosIceMessage::MotorsSrv::Request &req, RosIceMessage::MotorsSrv::Response &res);
 
 };
 

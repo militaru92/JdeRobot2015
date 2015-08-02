@@ -3,7 +3,7 @@
 
 
 #include <jderobot/pose3d.h>
-#include <IceRosGazebo/Pose3D.h>
+#include <RosIceMessage/Pose3D.h>
 #include "Ros_Ice.h"
 
 #include <fstream>
@@ -20,11 +20,11 @@ public:
 
     virtual jderobot::Pose3DDataPtr getPose3DData(const Ice::Current&);
 
-    void rosCallback(IceRosGazebo::Pose3D pose3DMsg);
+    void rosCallback(RosIceMessage::Pose3D pose3DMsg);
 
 private:
 
-    //IceRosGazebo::EncodersData encodersMsg;
+    //RosIceMessage::EncodersData encodersMsg;
     jderobot::Pose3DDataPtr pose3DData;
 
     std::ofstream myfile;

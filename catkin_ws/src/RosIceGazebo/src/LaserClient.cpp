@@ -3,7 +3,7 @@
 LaserClient::LaserClient(int argc, char **argv, std::string nodeName)
 {
     initializeROS(argc,argv,nodeName);
-    addRosPublisher <RosIceGazebo::Laser> (nodeName,1000);
+    addRosPublisher <RosIceMessage::Laser> (nodeName,1000);
     //addRosSubscriber(nodeName,1000,&LaserClient::rosCallback_Encoders,this);
     addRosSubscriber(nodeName,1000,&LaserClient::rosCallback_Pose3D,this);
     //addRosSubscriber(nodeName,1000,&LaserClient::rosCallback,this);
@@ -40,7 +40,7 @@ LaserClient::LaserClient(int argc, char **argv, std::string nodeName)
 
     marker.type = visualization_msgs::Marker::MESH_RESOURCE;
 
-    marker.mesh_resource = "package://RosIceGazebo/meshes/chassis.dae";
+    marker.mesh_resource = "package://RosIceMessage/meshes/chassis.dae";
 
     marker.action = visualization_msgs::Marker::ADD;
 
@@ -56,7 +56,7 @@ LaserClient::LaserClient(int argc, char **argv, std::string nodeName)
     marker.pose = getPose(0, 0, 0.04, 0, 0, 0);
 
 
-    //marker_array.markers.push_back(marker);
+    marker_array.markers.push_back(marker);
 
     marker.id = 1;
 
@@ -90,45 +90,50 @@ LaserClient::LaserClient(int argc, char **argv, std::string nodeName)
 
     marker.type = visualization_msgs::Marker::CYLINDER;
 
-    marker.pose = getPose(0.1, -0.17, 0.05, 0, 1.5707, 1.5707);
+    marker.pose = getPose(0.1, -0.17, 0.0, 0, 1.5707, 1.5707);
 
-    marker.scale.x = 0.11;
-    marker.scale.y = 0.11;
+    marker.scale.x = 0.2;
+    marker.scale.y = 0.2;
     marker.scale.z = 0.05;
 
-    //marker_array.markers.push_back(marker);
+    marker_array.markers.push_back(marker);
 
     marker.id = 3;
 
     marker.type = visualization_msgs::Marker::CYLINDER;
 
-    marker.pose = getPose(0.1, 0.17, 0.05, 0, 1.5707, 1.5707);
+    marker.pose = getPose(0.1, 0.17, 0.0, 0, 1.5707, 1.5707);
 
-    marker.scale.x = 0.11;
-    marker.scale.y = 0.11;
+    marker.scale.x = 0.2;
+    marker.scale.y = 0.2;
     marker.scale.z = 0.05;
 
-    //marker_array.markers.push_back(marker);
+    marker_array.markers.push_back(marker);
 
     marker.id = 4;
 
     marker.type = visualization_msgs::Marker::MESH_RESOURCE;
 
-    marker.mesh_resource = "package://RosIceGazebo/meshes/hokuyo.dae";
-    marker.pose = getPose(0.22, 0.0, 0.3, 0, 0, 0);
+    marker.mesh_resource = "package://RosIceMessage/meshes/hokuyo.dae";
+    marker.pose = getPose(0.20, 0.0, 0.12, 0, 0, 0);
 
     marker.scale.x = 1;
     marker.scale.y = 1;
     marker.scale.z = 1;
 
-    //marker_array.markers.push_back(marker);
+    marker.color.r = 0.0f;
+    marker.color.g = 1.0f;
+    marker.color.b = 1.0f;
+    marker.color.a = 1.0;
+
+    marker_array.markers.push_back(marker);
 
 
     marker.id = 5;
 
     marker.type = visualization_msgs::Marker::MESH_RESOURCE;
 
-    marker.mesh_resource = "package://RosIceGazebo/meshes/sonyvid30_mid.dae";
+    marker.mesh_resource = "package://RosIceMessage/meshes/sonyvid30_mid.dae";
     //marker.pose = getPose(1.5, 1.1, 1.3, -1.57, 0, 0);
     marker.pose = getPose(0.5, 0.1, 0.3, -1.57, 0, 0);
 
@@ -136,7 +141,7 @@ LaserClient::LaserClient(int argc, char **argv, std::string nodeName)
     marker.scale.y = 10;
     marker.scale.z = 10;
 
-    marker_array.markers.push_back(marker);
+    //marker_array.markers.push_back(marker);
 
     ROS_INFO("SIZE: -- %d\n",(int) marker_array.markers.size());
 
@@ -159,11 +164,11 @@ LaserClient::~LaserClient()
     //delete Laser3DSubscriber;
 }
 
-void LaserClient::publishROS(RosIceGazebo::EncodersData encodersMessage)
+void LaserClient::publishROS(RosIceMessage::EncodersData encodersMessage)
 {
     /*
     jderobot::LaserDataPtr laserData= this->Proxy->getLaserData();
-    RosIceGazebo::Laser rosLaserData;
+    RosIceMessage::Laser rosLaserData;
 
     tf::Quaternion rotation;
 
@@ -186,7 +191,7 @@ void LaserClient::publishROS(RosIceGazebo::EncodersData encodersMessage)
     */
 
     jderobot::LaserDataPtr laserData= this->Proxy->getLaserData();
-    RosIceGazebo::Laser rosLaserData;
+    RosIceMessage::Laser rosLaserData;
 
     rosLaserData.numLaser = laserData->numLaser;
     rosLaserData.distanceData = laserData->distanceData;
@@ -200,7 +205,7 @@ void LaserClient::publishROS(RosIceGazebo::EncodersData encodersMessage)
 void LaserClient::publishROS(geometry_msgs::Pose pose3DMessage)
 {
     jderobot::LaserDataPtr laserData= this->Proxy->getLaserData();
-    RosIceGazebo::Laser rosLaserData;
+    RosIceMessage::Laser rosLaserData;
 
     rosLaserData.numLaser = laserData->numLaser;
     rosLaserData.distanceData = laserData->distanceData;
@@ -238,7 +243,7 @@ void LaserClient::publishROS(geometry_msgs::Pose pose3DMessage)
 }
 
 
-void LaserClient::rosCallback(RosIceGazebo::Laser laserMessage)
+void LaserClient::rosCallback(RosIceMessage::Laser laserMessage)
 {
     cv::Mat laserImage(180,360, CV_8UC3, cv::Scalar(0,0,0));
 
@@ -317,7 +322,7 @@ void LaserClient::rosCallback(RosIceGazebo::Laser laserMessage)
 
 }
 
-void LaserClient::rosCallback_Pose3D(RosIceGazebo::Laser laserMessage)
+void LaserClient::rosCallback_Pose3D(RosIceMessage::Laser laserMessage)
 {
     cv::Mat laserImage(180,360, CV_8UC3, cv::Scalar(0,0,0));
 
@@ -396,7 +401,7 @@ void LaserClient::rosCallback_Pose3D(RosIceGazebo::Laser laserMessage)
 
 
 
-void LaserClient::rosCallback_Encoders(RosIceGazebo::Laser laserMessage)
+void LaserClient::rosCallback_Encoders(RosIceMessage::Laser laserMessage)
 {
     cv::Mat laserImage(180,360, CV_8UC3, cv::Scalar(0,0,0));
 
@@ -481,7 +486,7 @@ void LaserClient::rosCallback_Encoders(RosIceGazebo::Laser laserMessage)
 
 }
 
-void LaserClient::setRobotPos(RosIceGazebo::EncodersData encodersMessage)
+void LaserClient::setRobotPos(RosIceMessage::EncodersData encodersMessage)
 {
     this->robotx = encodersMessage.robotx;
     this->roboty = encodersMessage.roboty;

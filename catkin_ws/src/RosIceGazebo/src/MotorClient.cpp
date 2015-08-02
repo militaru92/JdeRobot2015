@@ -3,7 +3,7 @@
 MotorClient::MotorClient(int argc, char **argv, std::string nodeName)
 {
     initializeROS(argc,argv,nodeName);
-    addRosPublisher <RosIceGazebo::MotorData > (nodeName,1000);
+    addRosPublisher <RosIceMessage::MotorData > (nodeName,1000);
     addRosSubscriber(nodeName,1000,&MotorClient::rosCallback,this);
 
 
@@ -17,7 +17,7 @@ MotorClient::~MotorClient()
 
 
 
-void MotorClient::rosCallback(RosIceGazebo::MotorData motorData)
+void MotorClient::rosCallback(RosIceMessage::MotorData motorData)
 {
     this->Proxy->setL(motorData.motorL);
     this->Proxy->setW(motorData.motorW);

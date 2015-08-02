@@ -4,7 +4,7 @@
 Pose3DEncodersInterface::Pose3DEncodersInterface(int argc, char **argv, std::string nodeName)
 {
     initializeROS(argc,argv,nodeName);
-    addRosSubscriber<IceRosGazebo::Pose3DEncodersData>(nodeName,500,&Pose3DEncodersInterface::rosCallback,this);
+    addRosSubscriber<RosIceMessage::Pose3DEncodersData>(nodeName,500,&Pose3DEncodersInterface::rosCallback,this);
 
     pose3DEncodersData = new jderobot::Pose3DEncodersData();
 
@@ -33,7 +33,7 @@ jderobot::Pose3DEncodersDataPtr Pose3DEncodersInterface::getPose3DEncodersData(c
 
 
 
-void Pose3DEncodersInterface::rosCallback(IceRosGazebo::Pose3DEncodersData pose3DEncodersMsg)
+void Pose3DEncodersInterface::rosCallback(RosIceMessage::Pose3DEncodersData pose3DEncodersMsg)
 {
 
     pose3DEncodersData->pan = pose3DEncodersMsg.pan;

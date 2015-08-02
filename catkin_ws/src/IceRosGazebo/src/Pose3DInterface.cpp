@@ -4,7 +4,7 @@
 Pose3DInterface::Pose3DInterface(int argc, char **argv, std::string nodeName)
 {
     initializeROS(argc,argv,nodeName);
-    addRosSubscriber<IceRosGazebo::Pose3D>("pose3d_pioneer",500,&Pose3DInterface::rosCallback,this);
+    addRosSubscriber<RosIceMessage::Pose3D>("pose3d_pioneer",500,&Pose3DInterface::rosCallback,this);
 
     pose3DData = new jderobot::Pose3DData();
 
@@ -31,7 +31,7 @@ int Pose3DInterface::setPose3DData(const jderobot::Pose3DDataPtr&  Pose3DData, c
     return 0;
 }
 
-void Pose3DInterface::rosCallback(IceRosGazebo::Pose3D pose3DMsg)
+void Pose3DInterface::rosCallback(RosIceMessage::Pose3D pose3DMsg)
 {
     pose3DData->x = pose3DMsg.x * 1000;
     pose3DData->y = pose3DMsg.y * 1000;

@@ -2,7 +2,7 @@
 #define LASERINTERFACE_H
 
 #include <jderobot/laser.h>
-#include <IceRosGazebo/Laser.h>
+#include <RosIceMessage/Laser.h>
 #include "Ros_Ice.h"
 
 #include <fstream>
@@ -17,11 +17,11 @@ public:
 
     virtual jderobot::LaserDataPtr getLaserData(const Ice::Current&);
 
-    void rosCallback(IceRosGazebo::Laser laserMsg);
+    void rosCallback(RosIceMessage::Laser laserMsg);
 
 private:
 
-    //IceRosGazebo::EncodersData encodersMsg;
+    //RosIceMessage::EncodersData encodersMsg;
     jderobot::LaserDataPtr laserData;
 
     std::ofstream myfile;

@@ -64,7 +64,7 @@ void RosMotorsPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
 
 
     RosNode = new ros::NodeHandle;
-    //RosPublisher = new ros::Publisher(RosNode->advertise<IceRosGazebo::MotorData>( this->GetHandle(), 500));
+    //RosPublisher = new ros::Publisher(RosNode->advertise<RosIceMessage::MotorData>( this->GetHandle(), 500));
     RosSubscriber = new ros::Subscriber(RosNode->subscribe(this->GetHandle() + "_subscriber", 500, &RosMotorsPlugin::rosCallback,this));
     RosServer = new ros::ServiceServer(RosNode->advertiseService(this->GetHandle() + "_server", &RosMotorsPlugin::rosServerFunction,this));
 
@@ -108,12 +108,12 @@ void RosMotorsPlugin::OnUpdate()
     rightJoint->SetParam("fmax", 0,torque);
 }
 
-void RosMotorsPlugin::rosCallback(IceRosGazebo::MotorData motorMsg)
+void RosMotorsPlugin::rosCallback(RosIceMessage::MotorData motorMsg)
 {
     this->motorMsg = motorMsg;
 }
 
-bool RosMotorsPlugin::rosServerFunction(IceRosGazebo::MotorsSrv::Request &req, IceRosGazebo::MotorsSrv::Response &res)
+bool RosMotorsPlugin::rosServerFunction(RosIceMessage::MotorsSrv::Request &req, RosIceMessage::MotorsSrv::Response &res)
 {
     res.motorMsg = this->motorMsg;
     return true;

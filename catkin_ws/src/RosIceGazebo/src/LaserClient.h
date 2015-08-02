@@ -9,8 +9,8 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <laser.h>
-#include <RosIceGazebo/Laser.h>
-#include <RosIceGazebo/EncodersData.h>
+#include <RosIceMessage/Laser.h>
+#include <RosIceMessage/EncodersData.h>
 #include <geometry_msgs/Pose.h>
 //#include <geometry_msgs/Vector3.h>
 #include <visionlib/colorspaces/colorspacesmm.h>
@@ -25,14 +25,14 @@ public:
     LaserClient(int argc, char **argv, std::string nodeName);
     ~LaserClient();
 
-    void publishROS(RosIceGazebo::EncodersData encodersMessage);
+    void publishROS(RosIceMessage::EncodersData encodersMessage);
     void publishROS(geometry_msgs::Pose pose3DMessage);
 
-    void rosCallback_Encoders(RosIceGazebo::Laser laserMessage);
-    void rosCallback_Pose3D(RosIceGazebo::Laser laserMessage);
-    void rosCallback(RosIceGazebo::Laser laserMessage);
+    void rosCallback_Encoders(RosIceMessage::Laser laserMessage);
+    void rosCallback_Pose3D(RosIceMessage::Laser laserMessage);
+    void rosCallback(RosIceMessage::Laser laserMessage);
 
-    void setRobotPos(RosIceGazebo::EncodersData encodersMessage);
+    void setRobotPos(RosIceMessage::EncodersData encodersMessage);
 
 private:
 

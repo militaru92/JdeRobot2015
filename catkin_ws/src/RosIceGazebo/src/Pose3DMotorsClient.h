@@ -3,7 +3,7 @@
 
 #include "Ros_Ice.h"
 #include <jderobot/pose3dmotors.h>
-#include <RosIceGazebo/Pose3DMotorsData.h>
+#include <RosIceMessage/Pose3DMotorsData.h>
 #include <visionlib/colorspaces/colorspacesmm.h>
 
 
@@ -16,7 +16,7 @@ public:
     ~Pose3DMotorsClient();
 
 
-    void rosCallback(RosIceGazebo::Pose3DMotorsData pose3DMotorData);
+    void rosCallback(RosIceMessage::Pose3DMotorsData pose3DMotorData);
 
 
 

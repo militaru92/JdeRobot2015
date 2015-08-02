@@ -16,7 +16,7 @@
 
 #include <gazebo/plugins/CameraPlugin.hh>
 
-#include <IceRosGazebo/Laser.h>
+#include <RosIceMessage/Laser.h>
 
 
 

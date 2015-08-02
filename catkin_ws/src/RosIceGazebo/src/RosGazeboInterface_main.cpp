@@ -50,8 +50,8 @@ int main(int argc, char **argv)
 
         motorClient.addIceProxy("introrob.Motors.Proxy",ic,1);
 
-        RosIceGazebo::MotorData motorMsg;
-        RosIceGazebo::EncodersData encodersMsg;
+        RosIceMessage::MotorData motorMsg;
+        RosIceMessage::EncodersData encodersMsg;
         geometry_msgs::Pose pose3DMsg;
 
         motorMsg.motorW = -10.0;

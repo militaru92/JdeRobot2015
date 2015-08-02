@@ -3,7 +3,7 @@
 
 
 #include <jderobot/pose3dmotors.h>
-#include <IceRosGazebo/Pose3DMotorsData.h>
+#include <RosIceMessage/Pose3DMotorsData.h>
 #include "Ros_Ice.h"
 
 #include <fstream>
@@ -20,11 +20,11 @@ public:
     virtual jderobot::Pose3DMotorsParamsPtr getPose3DMotorsParams(const Ice::Current&);
     virtual Ice::Int setPose3DMotorsData(const jderobot::Pose3DMotorsDataPtr & data, const Ice::Current&);
 
-    void rosCallback(IceRosGazebo::Pose3DMotorsData pose3DMotorsMsg);
+    void rosCallback(RosIceMessage::Pose3DMotorsData pose3DMotorsMsg);
 
 private:
 
-    //IceRosGazebo::MotorsData MotorsMsg;
+    //RosIceMessage::MotorsData MotorsMsg;
     jderobot::Pose3DMotorsDataPtr pose3DMotorsData;
     jderobot::Pose3DMotorsParamsPtr pose3DMotorsParamsData;
 

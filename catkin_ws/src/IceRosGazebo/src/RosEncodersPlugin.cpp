@@ -23,7 +23,7 @@ void RosEncodersPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
     updateConnection = event::Events::ConnectWorldUpdateBegin( boost::bind(&RosEncodersPlugin::OnUpdate, this) );
 
     RosNode = new ros::NodeHandle;
-    RosPublisher = new ros::Publisher(RosNode->advertise<IceRosGazebo::EncodersData>( this->GetHandle(), 500));
+    RosPublisher = new ros::Publisher(RosNode->advertise<RosIceMessage::EncodersData>( this->GetHandle(), 500));
 
     ROS_INFO("ROS Publisher Loaded: %s\n", this->GetHandle().c_str());
 }
@@ -34,7 +34,7 @@ void RosEncodersPlugin::OnUpdate()
 
     position = model->GetWorldPose();
 
-    IceRosGazebo::EncodersData encodersMsg;
+    RosIceMessage::EncodersData encodersMsg;
 
     math::Quaternion initial_q = position.rot;
 

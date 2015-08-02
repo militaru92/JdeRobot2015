@@ -9,7 +9,7 @@
 #include <gazebo/physics/MultiRayShape.hh>
 #include <gazebo/common/common.hh>
 #include <gazebo/transport/transport.hh>
-#include <IceRosGazebo/Pose3D.h>
+#include <RosIceMessage/Pose3D.h>
 
 
 namespace gazebo

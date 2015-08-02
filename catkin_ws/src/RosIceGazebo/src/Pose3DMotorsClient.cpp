@@ -3,7 +3,7 @@
 Pose3DMotorsClient::Pose3DMotorsClient(int argc, char **argv, std::string nodeName)
 {
     initializeROS(argc,argv,nodeName);
-    addRosPublisher < RosIceGazebo::Pose3DMotorsData > (nodeName,1000);
+    addRosPublisher < RosIceMessage::Pose3DMotorsData > (nodeName,1000);
     addRosSubscriber(nodeName,1000,&Pose3DMotorsClient::rosCallback,this);
 
 
@@ -17,7 +17,7 @@ Pose3DMotorsClient::~Pose3DMotorsClient()
 
 
 
-void Pose3DMotorsClient::rosCallback(RosIceGazebo::Pose3DMotorsData pose3DMotorData)
+void Pose3DMotorsClient::rosCallback(RosIceMessage::Pose3DMotorsData pose3DMotorData)
 {
 
     jderobot::Pose3DMotorsDataPtr Pose3DmotorsData = new jderobot::Pose3DMotorsData();

@@ -5,13 +5,13 @@ project(RosIceGazebo)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  RosIceMessage
   cv_bridge
   image_transport
   roscpp
   rospy
   sensor_msgs
   std_msgs
-  message_generation
 )
 
 ## System dependencies are found with CMake's conventions
@@ -57,13 +57,13 @@ file(GLOB jderobot_libraries "/usr/local/lib/jderobot/*.so")
 #   Message1.msg
 #   Message2.msg
 # )
- add_message_files(
-   FILES
-   Laser.msg
-   MotorData.msg
-   Pose3DMotorsData.msg
-   EncodersData.msg
- )
+# add_message_files(
+#   FILES
+#   Laser.msg
+#   MotorData.msg
+#   Pose3DMotorsData.msg
+#   EncodersData.msg
+# )
 
 
 ## Generate services in the 'srv' folder
@@ -86,11 +86,11 @@ file(GLOB jderobot_libraries "/usr/local/lib/jderobot/*.so")
 #   sensor_msgs#   std_msgs
 # )
 
- generate_messages(
-   DEPENDENCIES
-   std_msgs
-   geometry_msgs
- )
+# generate_messages(
+#   DEPENDENCIES
+#   std_msgs
+#   geometry_msgs
+# )
 
 ###################################
 ## catkin specific configuration ##
@@ -104,7 +104,7 @@ file(GLOB jderobot_libraries "/usr/local/lib/jderobot/*.so")
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES RosIceGazebo
-  CATKIN_DEPENDS message_runtime
+  CATKIN_DEPENDS RosIceMessage
 #  DEPENDS system_lib
 )
 
@@ -149,7 +149,7 @@ add_executable(RosGazeboInterface ${CPP_SRC})
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-add_dependencies(RosGazeboInterface RosIceGazebo_generate_messages_cpp)
+add_dependencies(RosGazeboInterface RosIceMessage_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(RosIceGazebo_node

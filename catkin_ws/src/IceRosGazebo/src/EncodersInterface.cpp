@@ -4,7 +4,7 @@
 EncodersInterface::EncodersInterface(int argc, char **argv, std::string nodeName)
 {
     initializeROS(argc,argv,nodeName);
-    addRosSubscriber<IceRosGazebo::EncodersData>("encoders_pioneer",1000,&EncodersInterface::rosCallback,this);
+    addRosSubscriber<RosIceMessage::EncodersData>("encoders_pioneer",1000,&EncodersInterface::rosCallback,this);
 
     encodersData = new jderobot::EncodersData();
 
@@ -30,7 +30,7 @@ void EncodersInterface::setEncodersData(const jderobot::EncodersDataPtr &encoder
     //std::cout <<"Set encoders" << std::endl;
 }
 
-void EncodersInterface::rosCallback(IceRosGazebo::EncodersData encodersMsg)
+void EncodersInterface::rosCallback(RosIceMessage::EncodersData encodersMsg)
 {
     encodersData->robotx = encodersMsg.robotx * 1000;
     encodersData->roboty = encodersMsg.roboty * 1000;

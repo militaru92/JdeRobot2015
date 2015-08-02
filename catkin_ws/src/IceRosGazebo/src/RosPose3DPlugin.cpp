@@ -23,7 +23,7 @@ void RosPose3DPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr)
     updateConnection = event::Events::ConnectWorldUpdateBegin( boost::bind(&RosPose3DPlugin::OnUpdate, this) );
 
     RosNode = new ros::NodeHandle;
-    RosPublisher = new ros::Publisher(RosNode->advertise<IceRosGazebo::Pose3D>( this->GetHandle(), 500));
+    RosPublisher = new ros::Publisher(RosNode->advertise<RosIceMessage::Pose3D>( this->GetHandle(), 500));
 
     ROS_INFO("ROS Publisher Loaded: %s\n", this->GetHandle().c_str());
 }
@@ -34,7 +34,7 @@ void RosPose3DPlugin::OnUpdate()
 
     position = model->GetWorldPose();
 
-    IceRosGazebo::Pose3D pose3dMsg;
+    RosIceMessage::Pose3D pose3dMsg;
 
     pose3dMsg.x = position.pos.x;
     pose3dMsg.y = position.pos.y;

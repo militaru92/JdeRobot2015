@@ -96,11 +96,11 @@ void RosPose3DEncodersPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sd
     this->updateConnection = event::Events::ConnectWorldUpdateBegin(boost::bind(&RosPose3DEncodersPlugin::OnUpdate, this));
 
     RosNode = new ros::NodeHandle;
-    RosPublisher_Camera_Left_Encoder = new ros::Publisher(RosNode->advertise<IceRosGazebo::Pose3DEncodersData>("pioneer_pose3dencoders_left_encoders",500));
-    RosPublisher_Camera_Right_Encoder = new ros::Publisher(RosNode->advertise<IceRosGazebo::Pose3DEncodersData>("pioneer_pose3dencoders_right_encoders",500));
+    RosPublisher_Camera_Left_Encoder = new ros::Publisher(RosNode->advertise<RosIceMessage::Pose3DEncodersData>("pioneer_pose3dencoders_left_encoders",500));
+    RosPublisher_Camera_Right_Encoder = new ros::Publisher(RosNode->advertise<RosIceMessage::Pose3DEncodersData>("pioneer_pose3dencoders_right_encoders",500));
 
-    RosPublisher_Camera_Left_Motor = new ros::Publisher(RosNode->advertise<IceRosGazebo::Pose3DMotorsData>("pioneer_pose3dencoders_left_motors",500));
-    RosPublisher_Camera_Right_Motor = new ros::Publisher(RosNode->advertise<IceRosGazebo::Pose3DMotorsData>("pioneer_pose3dencoders_right_motors",500));
+    RosPublisher_Camera_Left_Motor = new ros::Publisher(RosNode->advertise<RosIceMessage::Pose3DMotorsData>("pioneer_pose3dencoders_left_motors",500));
+    RosPublisher_Camera_Right_Motor = new ros::Publisher(RosNode->advertise<RosIceMessage::Pose3DMotorsData>("pioneer_pose3dencoders_right_motors",500));
 
     RosSubscriber_Camera_Left_Motor = new ros::Subscriber(RosNode->subscribe("pioneer_pose3dencoders_left_motors_sub",500,&RosPose3DEncodersPlugin::rosCallback_Left_Camera,this));
     RosSubscriber_Camera_Right_Motor = new ros::Subscriber(RosNode->subscribe("pioneer_pose3dencoders_right_motors_sub",500,&RosPose3DEncodersPlugin::rosCallback_Right_Camera,this));
@@ -267,8 +267,8 @@ void RosPose3DEncodersPlugin::OnUpdate()
     RosPublisher_Camera_Left_Encoder->publish(encoder_left_camera);
     RosPublisher_Camera_Right_Encoder->publish(encoder_right_camera);
 
-    IceRosGazebo::Pose3DMotorsData motor_left_camera_local;
-    IceRosGazebo::Pose3DMotorsData motor_right_camera_local;
+    RosIceMessage::Pose3DMotorsData motor_left_camera_local;
+    RosIceMessage::Pose3DMotorsData motor_right_camera_local;
 
     motor_left_camera_local.pan = encoder_left_camera.pan;
     motor_left_camera_local.tilt = encoder_left_camera.tilt;
@@ -285,13 +285,13 @@ void RosPose3DEncodersPlugin::OnUpdate()
 
 }
 
-void RosPose3DEncodersPlugin::rosCallback_Left_Camera(IceRosGazebo::Pose3DMotorsData pose3DMotor)
+void RosPose3DEncodersPlugin::rosCallback_Left_Camera(RosIceMessage::Pose3DMotorsData pose3DMotor)
 {
     this->motor_left_camera = pose3DMotor;
 }
 
 
-void RosPose3DEncodersPlugin::rosCallback_Right_Camera(IceRosGazebo::Pose3DMotorsData pose3DMotor)
+void RosPose3DEncodersPlugin::rosCallback_Right_Camera(RosIceMessage::Pose3DMotorsData pose3DMotor)
 {
     this->motor_right_camera = pose3DMotor;
 }

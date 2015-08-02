@@ -3,7 +3,7 @@
 EncodersClient::EncodersClient(int argc, char **argv, std::string nodeName)
 {
     initializeROS(argc,argv,nodeName);
-    addRosPublisher <RosIceGazebo::EncodersData> (nodeName,500);
+    addRosPublisher <RosIceMessage::EncodersData> (nodeName,500);
 
 
 
@@ -14,10 +14,10 @@ EncodersClient::~EncodersClient()
 
 }
 
-RosIceGazebo::EncodersData EncodersClient::publishROS()
+RosIceMessage::EncodersData EncodersClient::publishROS()
 {
 
-    RosIceGazebo::EncodersData encodersMsg;
+    RosIceMessage::EncodersData encodersMsg;
 
     jderobot::EncodersDataPtr encodersData;
 
@@ -35,7 +35,7 @@ RosIceGazebo::EncodersData EncodersClient::publishROS()
     return encodersMsg;
 }
 
-void EncodersClient::rosCallback(RosIceGazebo::EncodersData encodersMessage)
+void EncodersClient::rosCallback(RosIceMessage::EncodersData encodersMessage)
 {
 
 

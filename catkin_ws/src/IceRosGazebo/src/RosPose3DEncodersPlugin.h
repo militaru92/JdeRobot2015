@@ -8,8 +8,8 @@
 #include <gazebo/common/common.hh>
 #include <gazebo/transport/transport.hh>
 
-#include <IceRosGazebo/Pose3DEncodersData.h>
-#include <IceRosGazebo/Pose3DMotorsData.h>
+#include <RosIceMessage/Pose3DEncodersData.h>
+#include <RosIceMessage/Pose3DMotorsData.h>
 
 namespace gazebo
 {
@@ -28,14 +28,14 @@ public:
     physics::JointPtr joint_pose3dencoders_tilt_left_camera, joint_pose3dencoders_pan_left_camera;
     physics::LinkPtr left_camera_link_pan, left_camera_link_tilt;
 
-    IceRosGazebo::Pose3DMotorsData motor_left_camera;
-    IceRosGazebo::Pose3DEncodersData encoder_left_camera;
+    RosIceMessage::Pose3DMotorsData motor_left_camera;
+    RosIceMessage::Pose3DEncodersData encoder_left_camera;
 
     physics::JointPtr joint_pose3dencoders_tilt_right_camera, joint_pose3dencoders_pan_right_camera;
     physics::LinkPtr right_camera_link_pan, right_camera_link_tilt;
 
-    IceRosGazebo::Pose3DMotorsData motor_right_camera;
-    IceRosGazebo::Pose3DEncodersData encoder_right_camera;
+    RosIceMessage::Pose3DMotorsData motor_right_camera;
+    RosIceMessage::Pose3DEncodersData encoder_right_camera;
 
 
     ros::NodeHandle* RosNode;
@@ -58,8 +58,8 @@ private:
     physics::ModelPtr model;
     event::ConnectionPtr updateConnection;
 
-    void rosCallback_Left_Camera(IceRosGazebo::Pose3DMotorsData pose3DMotor);
-    void rosCallback_Right_Camera(IceRosGazebo::Pose3DMotorsData pose3DMotor);
+    void rosCallback_Left_Camera(RosIceMessage::Pose3DMotorsData pose3DMotor);
+    void rosCallback_Right_Camera(RosIceMessage::Pose3DMotorsData pose3DMotor);
 };
 
 GZ_REGISTER_MODEL_PLUGIN(RosPose3DEncodersPlugin)

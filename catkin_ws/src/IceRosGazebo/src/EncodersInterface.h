@@ -2,7 +2,7 @@
 #define ENCODERSINTERFACE_H
 
 #include <jderobot/encoders.h>
-#include <IceRosGazebo/EncodersData.h>
+#include <RosIceMessage/EncodersData.h>
 #include "Ros_Ice.h"
 
 #include <fstream>
@@ -18,11 +18,11 @@ public:
     virtual void setEncodersData(const jderobot::EncodersDataPtr&  encodersData, const Ice::Current&);
 
     virtual jderobot::EncodersDataPtr getEncodersData(const Ice::Current&);
-    void rosCallback(IceRosGazebo::EncodersData encodersMsg);
+    void rosCallback(RosIceMessage::EncodersData encodersMsg);
 
 private:
 
-    //IceRosGazebo::EncodersData encodersMsg;
+    //RosIceMessage::EncodersData encodersMsg;
     jderobot::EncodersDataPtr encodersData;
 
     //std::ofstream myfile;

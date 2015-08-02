@@ -4,7 +4,7 @@
 LaserInterface::LaserInterface(int argc, char **argv, std::string nodeName)
 {
     initializeROS(argc,argv,nodeName);
-    addRosSubscriber<IceRosGazebo::Laser>("laser",500,&LaserInterface::rosCallback,this);
+    addRosSubscriber<RosIceMessage::Laser>("laser",500,&LaserInterface::rosCallback,this);
 
     laserData = new jderobot::LaserData();
 
@@ -25,7 +25,7 @@ jderobot::LaserDataPtr LaserInterface::getLaserData(const Ice::Current&)
 }
 
 
-void LaserInterface::rosCallback(IceRosGazebo::Laser laserMsg)
+void LaserInterface::rosCallback(RosIceMessage::Laser laserMsg)
 {
 
     laserData->numLaser = laserMsg.numLaser;

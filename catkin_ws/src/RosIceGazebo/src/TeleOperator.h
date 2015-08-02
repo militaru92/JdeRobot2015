@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include "ros/ros.h"
-#include <RosIceGazebo/MotorData.h>
+#include <RosIceMessage/MotorData.h>
 #include <geometry_msgs/Twist.h>
 
 
