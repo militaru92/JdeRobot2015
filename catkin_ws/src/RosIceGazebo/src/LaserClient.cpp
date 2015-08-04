@@ -36,29 +36,49 @@ LaserClient::LaserClient(int argc, char **argv, std::string nodeName)
     marker.header.stamp = ros::Time::now();
 
     marker.ns = "basic_shapes";
+
     marker.id = 0;
 
     marker.type = visualization_msgs::Marker::MESH_RESOURCE;
 
-    marker.mesh_resource = "package://RosIceMessage/meshes/chassis.dae";
+    marker.mesh_resource = "package://RosIceGazebo/meshes/hokuyo.dae";
+    marker.pose = getPose(2.0, 0.0, 3.2, 0, 0, 0);
+
+    marker.scale.x = 10.0;
+    marker.scale.y = 10.0;
+    marker.scale.z = 10.0;
+
+    marker.color.r = 0.0f;
+    marker.color.g = 1.0f;
+    marker.color.b = 1.0f;
+    marker.color.a = 1.0;
+
+    marker_array.markers.push_back(marker);
+
+
+    marker.id = 1;
+
+    marker.type = visualization_msgs::Marker::MESH_RESOURCE;
+
+    marker.mesh_resource = "package://RosIceGazebo/meshes/chassis.dae";
 
     marker.action = visualization_msgs::Marker::ADD;
 
-    marker.scale.x = 1.0;
-    marker.scale.y = 1.0;
-    marker.scale.z = 1.0;
+    marker.scale.x = 10.0;
+    marker.scale.y = 10.0;
+    marker.scale.z = 10.0;
 
     marker.color.r = 1.0f;
     marker.color.g = 0.0f;
     marker.color.b = 0.0f;
     marker.color.a = 1.0;
 
-    marker.pose = getPose(0, 0, 0.04, 0, 0, 0);
+    marker.pose = getPose(0.0, 0, 2.4, 0, 0, 0);
 
 
     marker_array.markers.push_back(marker);
 
-    marker.id = 1;
+    marker.id = 2;
 
     marker.type = visualization_msgs::Marker::SPHERE;
 /*
@@ -81,7 +101,7 @@ LaserClient::LaserClient(int argc, char **argv, std::string nodeName)
 
     //marker_array.markers.push_back(marker);
 
-    marker.id = 2;
+    marker.id = 3;
 /*
     marker.pose.position.x = 0.0;
     marker.pose.position.y = -7.5;
@@ -96,9 +116,9 @@ LaserClient::LaserClient(int argc, char **argv, std::string nodeName)
     marker.scale.y = 0.2;
     marker.scale.z = 0.05;
 
-    marker_array.markers.push_back(marker);
+    //marker_array.markers.push_back(marker);
 
-    marker.id = 3;
+    marker.id = 4;
 
     marker.type = visualization_msgs::Marker::CYLINDER;
 
@@ -108,32 +128,14 @@ LaserClient::LaserClient(int argc, char **argv, std::string nodeName)
     marker.scale.y = 0.2;
     marker.scale.z = 0.05;
 
-    marker_array.markers.push_back(marker);
-
-    marker.id = 4;
-
-    marker.type = visualization_msgs::Marker::MESH_RESOURCE;
-
-    marker.mesh_resource = "package://RosIceMessage/meshes/hokuyo.dae";
-    marker.pose = getPose(0.20, 0.0, 0.12, 0, 0, 0);
-
-    marker.scale.x = 1;
-    marker.scale.y = 1;
-    marker.scale.z = 1;
-
-    marker.color.r = 0.0f;
-    marker.color.g = 1.0f;
-    marker.color.b = 1.0f;
-    marker.color.a = 1.0;
-
-    marker_array.markers.push_back(marker);
+    //marker_array.markers.push_back(marker);
 
 
     marker.id = 5;
 
     marker.type = visualization_msgs::Marker::MESH_RESOURCE;
 
-    marker.mesh_resource = "package://RosIceMessage/meshes/sonyvid30_mid.dae";
+    marker.mesh_resource = "package://RosIceGazebo/meshes/sonyvid30_mid.dae";
     //marker.pose = getPose(1.5, 1.1, 1.3, -1.57, 0, 0);
     marker.pose = getPose(0.5, 0.1, 0.3, -1.57, 0, 0);
 
@@ -343,12 +345,12 @@ void LaserClient::rosCallback_Pose3D(RosIceMessage::Laser laserMessage)
     point.setZ(3.2);
     point_marker.z = 3.2;
 
-/*
+
     for( unsigned int i = 0 ; i < marker_array.markers.size(); ++i)
     {
         marker_array.markers[i].pose.orientation = laserMessage.positionPose3D.orientation;
     }
-*/
+
 
 
 
@@ -384,7 +386,7 @@ void LaserClient::rosCallback_Pose3D(RosIceMessage::Laser laserMessage)
 
     laser_world.polygon.points.push_back(point_marker);
 
-    //positionMarkers(point_marker.x - marker_array.markers[0].pose.position.x, point_marker.y - marker_array.markers[0].pose.position.y,rotation);
+    positionMarkers(point_marker.x - marker_array.markers[0].pose.position.x, point_marker.y - marker_array.markers[0].pose.position.y,rotation);
 
 
     sensor_msgs::ImagePtr image_message = cv_bridge::CvImage(std_msgs::Header(), "rgb8", laserImage).toImageMsg();
@@ -471,7 +473,7 @@ void LaserClient::rosCallback_Encoders(RosIceMessage::Laser laserMessage)
 
     laser_world.polygon.points.push_back(point);
 
-    positionMarkers(point.x - marker_array.markers[0].pose.position.x, point.y - marker_array.markers[0].pose.position.y,costheta,sintheta);
+    //positionMarkers(point.x - marker_array.markers[0].pose.position.x, point.y - marker_array.markers[0].pose.position.y,costheta,sintheta);
 
 
 
@@ -529,7 +531,7 @@ void LaserClient::positionMarkers(float x, float y, float costheta, float sinthe
 
 void LaserClient::positionMarkers(float x, float y, tf::Quaternion rotation)
 {
-    tf::Quaternion aux,point1(0.0,7.5,3.2,0.0),point2(0.0,-7.5,3.2,0.0);
+    tf::Quaternion aux,point1(0.0, 0.0, 2.4,0.0),point2(0.0,-7.5,3.2,0.0);
 
     aux = rotation * point1 * rotation.inverse();
 
