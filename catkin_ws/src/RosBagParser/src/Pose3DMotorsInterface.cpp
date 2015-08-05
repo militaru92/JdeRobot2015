@@ -38,6 +38,7 @@ Pose3DMotorsInterface::~Pose3DMotorsInterface()
 
 jderobot::Pose3DMotorsDataPtr Pose3DMotorsInterface::getPose3DMotorsData(const Ice::Current&)
 {
+    /*
     if(flag == false)
     {
         std::cout<< "Reached End for Pose3DMotors\n";
@@ -52,7 +53,7 @@ jderobot::Pose3DMotorsDataPtr Pose3DMotorsInterface::getPose3DMotorsData(const I
     pose3DMotorsData->tilt = pose3DMotorsMsg->tilt;
 
     flag = increment();
-
+*/
 
     return pose3DMotorsData;
 }

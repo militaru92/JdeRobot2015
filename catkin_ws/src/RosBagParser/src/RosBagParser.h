@@ -16,9 +16,13 @@ public:
 
     bool configureRosBag(std::string fileName, std::string topicName);
 
+    bool atEnd();
+
     rosbag::View::iterator getIterator();
 
-    bool increment();
+    void increment();
+
+    int index;
 
 
 private:
@@ -28,6 +32,8 @@ private:
     rosbag::View* view;
 
     rosbag::View::iterator iter;
+
+
 
 
 

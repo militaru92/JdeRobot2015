@@ -5,8 +5,6 @@ EncodersInterface::EncodersInterface(std::string fileName, std::string topicName
 {
 
     encodersData = new jderobot::EncodersData();
-    flag = true;
-
 }
 
 EncodersInterface::~EncodersInterface()
@@ -20,9 +18,9 @@ jderobot::EncodersDataPtr EncodersInterface::getEncodersData(const Ice::Current 
 
 
 
-    if(flag == false)
+    if(atEnd())
     {
-        std::cout<< "Reached End for Encoders\n";
+        std::cout<< "Reached End for Encoders " << index << std::endl;
         return encodersData;
     }
 
@@ -30,14 +28,13 @@ jderobot::EncodersDataPtr EncodersInterface::getEncodersData(const Ice::Current 
 
     RosIceMessage::EncodersData::ConstPtr encodersMsg = getIterator()->instantiate<RosIceMessage::EncodersData>();
 
-    encodersData->robotx = encodersMsg->robotx * 1000;
-    encodersData->roboty = encodersMsg->roboty * 1000;
+    encodersData->robotx = encodersMsg->robotx;
+    encodersData->roboty = encodersMsg->roboty;
     encodersData->robottheta = encodersMsg->robottheta;
     encodersData->robotcos = cos(encodersMsg->robottheta);
     encodersData->robotsin = sin(encodersMsg->robottheta);
 
-
-    flag = increment();
+    increment();
 
 
     return encodersData;

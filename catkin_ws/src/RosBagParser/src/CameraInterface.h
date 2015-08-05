@@ -50,7 +50,7 @@ private:
 
 
     std::ofstream myfile;
-    bool flag;
+    //bool flag;
 
 
 

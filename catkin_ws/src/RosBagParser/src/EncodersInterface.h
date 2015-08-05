@@ -21,7 +21,6 @@ private:
 
 
     jderobot::EncodersDataPtr encodersData;
-    bool flag;
 
 
 

@@ -8,9 +8,6 @@ CameraInterface::CameraInterface(std::string fileName, std::string topicName): R
     cameraDescription = (new jderobot::CameraDescription());
     cameraDescription->name = "camera Introrob";
 
-
-    flag = true;
-
     replyTask = new ReplyTask(this);
     replyTask->start();
 
@@ -50,7 +47,7 @@ void CameraInterface::getImageData_async (const jderobot::AMD_ImageProvider_getI
 {
 
 
-    if(flag == false)
+    if(atEnd())
     {
         std::cout<< "Reached End for Camera\n";
 
@@ -78,7 +75,7 @@ void CameraInterface::getImageData_async (const jderobot::AMD_ImageProvider_getI
         image.copyTo(image_camera);
 
 
-        flag = increment();
+        increment();
     }
 
     replyTask->pushJob(cb, format);

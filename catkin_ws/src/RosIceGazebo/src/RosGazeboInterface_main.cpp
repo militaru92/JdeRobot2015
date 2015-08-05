@@ -4,6 +4,7 @@
 #include "CameraClient.h"
 #include "LaserClient.h"
 #include "Pose3DMotorsClient.h"
+#include "Pose3DEncodersClient.h"
 #include "TeleOperator.h"
 #include <opencv2/opencv.hpp>
 
@@ -14,17 +15,20 @@ int main(int argc, char **argv)
     int status;
     Ice::CommunicatorPtr ic;
 
-    CameraClient cameraClient1(argc,argv,"camera1");
-    CameraClient cameraClient2(argc,argv,"camera2");
+    CameraClient cameraClient1(argc,argv,"cam_pioneer_left");
+    CameraClient cameraClient2(argc,argv,"cam_pioneer_right");
 
-    //EncodersClient encodersClient(argc,argv,"encoders");
+    EncodersClient encodersClient(argc,argv,"encoders");
 
-    Pose3DClient pose3DClient(argc,argv,"pose3d");
+    Pose3DClient pose3DClient(argc,argv,"pose3d_pioneer");
 
 
     LaserClient laserClient(argc,argv,"laser");
 
     MotorClient motorClient(argc, argv, "motor");
+
+    Pose3DEncodersClient pose3DEncodersClient_left(argc,argv,"pioneer_pose3dencoders_left_encoders");
+    Pose3DEncodersClient pose3DEncodersClient_right(argc,argv,"pioneer_pose3dencoders_right_encoders");
 
     TeleOperator teleOperator(argc, argv, "pioneer");
 
@@ -42,11 +46,14 @@ int main(int argc, char **argv)
         cameraClient1.addIceProxy("introrob.Camera1.Proxy",ic,1);
         cameraClient2.addIceProxy("introrob.Camera2.Proxy",ic,1);
 
-        //encodersClient.addIceProxy("introrob.Encoders.Proxy",ic,1);
+        encodersClient.addIceProxy("introrob.Encoders.Proxy",ic,1);
 
         pose3DClient.addIceProxy("introrob.Pose3D.Proxy",ic,1);
 
         laserClient.addIceProxy("introrob.Laser.Proxy",ic,1);
+
+        pose3DEncodersClient_left.addIceProxy("introrob.Pose3Dencoders1.Proxy",ic,1);
+        pose3DEncodersClient_right.addIceProxy("introrob.Pose3Dencoders2.Proxy",ic,1);
 
         motorClient.addIceProxy("introrob.Motors.Proxy",ic,1);
 
@@ -63,11 +70,14 @@ int main(int argc, char **argv)
             cameraClient1.publishROS();
             cameraClient2.publishROS();
 
-            //encodersMsg = encodersClient.publishROS();
+            encodersMsg = encodersClient.publishROS();
             pose3DMsg = pose3DClient.publishROS();
 
             //laserClient.publishROS(encodersMsg);
             laserClient.publishROS(pose3DMsg);
+
+            pose3DEncodersClient_left.publishROS();
+            pose3DEncodersClient_right.publishROS();
 
         }
 

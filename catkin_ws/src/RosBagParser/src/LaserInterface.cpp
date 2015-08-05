@@ -6,7 +6,6 @@ LaserInterface::LaserInterface(std::string fileName, std::string topicName) : Ro
 {
 
     laserData = new jderobot::LaserData();
-    flag = true;
 
 }
 
@@ -18,7 +17,7 @@ LaserInterface::~LaserInterface()
 jderobot::LaserDataPtr LaserInterface::getLaserData(const Ice::Current&)
 {
 
-    if(flag == false)
+    if(atEnd())
     {
         std::cout<< "Reached End for Laser\n";
         return laserData;
@@ -35,8 +34,7 @@ jderobot::LaserDataPtr LaserInterface::getLaserData(const Ice::Current&)
        laserData->distanceData[i] = laserMsg->distanceData[i];
     }
 
-
-    flag = increment();
+    increment();
 
     return laserData;
 }

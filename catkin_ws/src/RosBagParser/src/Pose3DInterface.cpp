@@ -6,7 +6,6 @@ Pose3DInterface::Pose3DInterface(std::string fileName, std::string topicName) : 
 
     pose3DData = new jderobot::Pose3DData();
 
-    flag = true;
 
 }
 
@@ -21,7 +20,7 @@ jderobot::Pose3DDataPtr Pose3DInterface::getPose3DData(const Ice::Current&)
 {
 
 
-    if(flag == false)
+    if(atEnd())
     {
         std::cout<< "Reached End for Pose3D\n";
         return pose3DData;
@@ -31,8 +30,8 @@ jderobot::Pose3DDataPtr Pose3DInterface::getPose3DData(const Ice::Current&)
     RosIceMessage::Pose3D::ConstPtr pose3DMsg = getIterator()->instantiate<RosIceMessage::Pose3D>();
 
 
-    pose3DData->x = pose3DMsg->x * 1000;
-    pose3DData->y = pose3DMsg->y * 1000;
+    pose3DData->x = pose3DMsg->x;
+    pose3DData->y = pose3DMsg->y;
     pose3DData->z = 0.0;
     pose3DData->h = 1.0;
 
@@ -43,7 +42,7 @@ jderobot::Pose3DDataPtr Pose3DInterface::getPose3DData(const Ice::Current&)
 
     //std::cout<< pose3DData->x << " "<< pose3DData->y << " " << pose3DData->z << " " << pose3DData->h << " "<< pose3DData->q0 << " "<< pose3DData->q1 << " " << pose3DData->q2 << " " << pose3DData->q3 << std::endl;
 
-    flag = increment();
+    increment();
 
     return pose3DData;
 }

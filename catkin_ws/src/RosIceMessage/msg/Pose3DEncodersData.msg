@@ -5,3 +5,7 @@ float32 pan
 float32 tilt
 float32 roll
 int32 clock
+float32 maxPan
+float32 maxTilt
+float32 minPan
+float32 minTilt

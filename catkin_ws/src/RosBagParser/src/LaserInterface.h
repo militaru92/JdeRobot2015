@@ -23,11 +23,6 @@ public:
 private:
 
     jderobot::LaserDataPtr laserData;
-    bool flag;
-
-
-
-
 
 
 };

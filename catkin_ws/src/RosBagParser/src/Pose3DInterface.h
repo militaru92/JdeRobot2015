@@ -6,7 +6,6 @@
 #include <RosIceMessage/Pose3D.h>
 #include "RosBagParser.h"
 
-
 class Pose3DInterface : virtual public jderobot::Pose3D, public RosBagParser
 {
 
@@ -23,8 +22,6 @@ public:
 private:
 
     jderobot::Pose3DDataPtr pose3DData;
-
-    bool flag;
 
 
 

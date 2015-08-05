@@ -31,7 +31,7 @@ int main(int argc, char **argv)
         std::cout << "Encoders Endpoints > " << Endpoints << std::endl;
 
         Ice::ObjectAdapterPtr adapter_encoders = ic->createObjectAdapterWithEndpoints("Encoders", Endpoints);
-        Ice::ObjectPtr object_encoders = new EncodersInterface("test.bag","/encoders_pioneer");
+        Ice::ObjectPtr object_encoders = new EncodersInterface("test.bag","/encoders");
 
         adapter_encoders->add(object_encoders, ic->stringToIdentity("Encoders"));
 

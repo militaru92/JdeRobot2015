@@ -12,7 +12,6 @@ Pose3DEncodersInterface::Pose3DEncodersInterface(std::string fileName, std::stri
     pose3DEncodersData->clock = 0;
     pose3DEncodersData->roll = 0;
 
-    flag = true;
 
 
 }
@@ -26,7 +25,7 @@ Pose3DEncodersInterface::~Pose3DEncodersInterface()
 
 jderobot::Pose3DEncodersDataPtr Pose3DEncodersInterface::getPose3DEncodersData(const Ice::Current&)
 {
-    if(flag == false)
+    if(atEnd())
     {
         std::cout<< "Reached End for Pose3DEncoders\n";
         return pose3DEncodersData;
@@ -38,7 +37,7 @@ jderobot::Pose3DEncodersDataPtr Pose3DEncodersInterface::getPose3DEncodersData(c
     pose3DEncodersData->pan = pose3DEncodersMsg->pan;
     pose3DEncodersData->tilt = pose3DEncodersMsg->tilt;
 
-    flag = increment();
+    increment();
 
 
     return pose3DEncodersData;

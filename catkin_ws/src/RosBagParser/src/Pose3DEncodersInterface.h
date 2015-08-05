@@ -21,7 +21,6 @@ public:
 private:
 
     jderobot::Pose3DEncodersDataPtr pose3DEncodersData;
-    bool flag;
 
 
 

@@ -9,6 +9,7 @@ RosBagParser::RosBagParser()
 RosBagParser::RosBagParser(std::string fileName, std::string topicName)
 {
     configureRosBag(fileName,topicName);
+    index = 0;
 }
 
 RosBagParser::~RosBagParser()
@@ -34,9 +35,13 @@ bool RosBagParser::configureRosBag(std::string fileName, std::string topicName)
     iter = view->begin();
 
 
-
     return true;
 
+}
+
+bool RosBagParser::atEnd()
+{
+    return (iter == view->end());
 }
 
 rosbag::View::iterator RosBagParser::getIterator()
@@ -44,18 +49,10 @@ rosbag::View::iterator RosBagParser::getIterator()
     return iter;
 }
 
-bool RosBagParser::increment()
+void RosBagParser::increment()
 {
 
     ++iter;
-
-    if(iter == view->end())
-    {
-        return false;
-    }
-
-
-
-    return true;
+    ++index;
 
 }
