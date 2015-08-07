@@ -280,9 +280,12 @@ public:
     template <class ROS_DATA>
     void rosPublish(ROS_DATA message)
     {
-        //ROS_INFO("Publisher message %ld \n", message.num);
         RosPublisher->publish(message);
     }
+
+    /**
+     * @brief Method to publish a ROS service
+     */
 
     template <class ROS_DATA>
     void rosServiceCall(ROS_DATA &message)
@@ -290,9 +293,12 @@ public:
         RosServiceClient->call(message);
     }
 
+    /**
+     * @brief Method to publish an Image using the image_transport API
+     */
+
     void rosImagePublish(sensor_msgs::ImagePtr& image_message)
     {
-        //ROS_INFO("Published image\n");
         ImagePublisher->publish(image_message);
     }
 

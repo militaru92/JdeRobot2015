@@ -29,7 +29,7 @@ int main(int argc, char **argv)
     try
     {
 
-        ic = Ice::initialize(argc_2, argv_2);
+        ic = Ice::initialize(argc, argv);
 
         prop = ic->getProperties();
         std::string Endpoints = prop->getProperty("Encoders.Endpoints");

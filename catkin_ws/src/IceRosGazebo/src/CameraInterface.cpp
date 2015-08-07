@@ -8,17 +8,14 @@ CameraInterface::CameraInterface(int argc, char **argv, std::string nodeName)
     cameraDescription = (new jderobot::CameraDescription());
     cameraDescription->name = "camera Introrob";
 
-    //reply = new jderobot::ImageData;
 
     initializeROS(argc,argv,nodeName);
     addRosImageSubscriber(nodeName,500,&CameraInterface::rosCallback,this);
 
-    //count = 0;
 
     replyTask = new ReplyTask(this);
     replyTask->start();
 
-    //myfile.open("Ros.txt");
 
 
 }
@@ -44,12 +41,7 @@ Ice::Int CameraInterface::setCameraDescription(const jderobot::CameraDescription
 {
     return 0;
 }
-/*
-jderobot::ImageDataPtr CameraInterface::getImageData( const std::string& format, const Ice::Current& c )
-{
-    return reply;
-}
-*/
+
 
 void CameraInterface::getImageData_async (const jderobot::AMD_ImageProvider_getImageDataPtr& cb,const std::string& format, const Ice::Current& c)
 {
@@ -159,11 +151,9 @@ void CameraInterface::ReplyTask::run()
 
         if(count==0)
         {
-            //pthread_mutex_lock (&mycamera->cameraI->mutex);
             mycamera->imageDescription->width = mycamera->image_camera.cols;
             mycamera->imageDescription->height = mycamera->image_camera.rows;
             mycamera->imageDescription->size = mycamera->image_camera.cols * mycamera->image_camera.rows * 3;
-            //pthread_mutex_unlock (&mycamera->cameraI->mutex);
 
             mycamera->imageDescription->format = "RGB8";
 
@@ -171,7 +161,6 @@ void CameraInterface::ReplyTask::run()
             count++;
         }
 
-        //std::cout << nameGlobal<< std::endl;
 
         gettimeofday(&a,NULL);
         totala=a.tv_sec*1000000+a.tv_usec;
@@ -184,7 +173,6 @@ void CameraInterface::ReplyTask::run()
         reply->pixelData.resize(mycamera->image_camera.rows * mycamera->image_camera.cols * 3);
 
         memcpy( &(reply->pixelData[0]), (unsigned char *) mycamera->image_camera.data, mycamera->image_camera.rows * mycamera->image_camera.cols * 3);
-        //pthread_mutex_unlock (&mycamera->cameraI->mutex);
 
         {
             IceUtil::Mutex::Lock sync(requestsMutex);
@@ -202,7 +190,6 @@ void CameraInterface::ReplyTask::run()
         diff = (totalb-totala)/1000;
         diff = cycle-diff;
 
-        //std::cout << "Gazeboserver takes " << diff << " ms " << mycamera->fileName << std::endl;
 
         if(diff < 33)
             diff = 33;

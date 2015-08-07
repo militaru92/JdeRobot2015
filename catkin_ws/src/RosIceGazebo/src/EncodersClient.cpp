@@ -35,6 +35,7 @@ RosIceMessage::EncodersData EncodersClient::publishROS()
     return encodersMsg;
 }
 
+/*
 void EncodersClient::rosCallback(RosIceMessage::EncodersData encodersMessage)
 {
 
@@ -42,3 +43,4 @@ void EncodersClient::rosCallback(RosIceMessage::EncodersData encodersMessage)
 
 }
 
+*/

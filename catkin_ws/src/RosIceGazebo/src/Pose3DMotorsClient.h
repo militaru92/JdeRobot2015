@@ -12,6 +12,10 @@ class Pose3DMotorsClient : public Ros_Ice < jderobot::Pose3DMotorsPrx >
 
 public:
 
+    /**
+     * @brief This constructor initializes the ROS topic using the nodeName parameter
+     */
+
     Pose3DMotorsClient(int argc, char **argv, std::string nodeName);
     ~Pose3DMotorsClient();
 

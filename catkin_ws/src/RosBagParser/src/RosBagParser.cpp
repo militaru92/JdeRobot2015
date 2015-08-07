@@ -9,7 +9,6 @@ RosBagParser::RosBagParser()
 RosBagParser::RosBagParser(std::string fileName, std::string topicName)
 {
     configureRosBag(fileName,topicName);
-    index = 0;
 }
 
 RosBagParser::~RosBagParser()
@@ -53,6 +52,5 @@ void RosBagParser::increment()
 {
 
     ++iter;
-    ++index;
 
 }

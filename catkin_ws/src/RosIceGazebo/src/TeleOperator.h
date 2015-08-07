@@ -21,12 +21,19 @@ private:
 
 public:
 
+    /**
+     * @brief This constructor initializes the ROS topic using the nodeName parameter
+     */
 
     TeleOperator(int argc, char **argv, std::string nodeName);
 
 
 
     virtual ~TeleOperator();
+
+    /**
+     * @brief This callback method takes the data from Rviz and sends it to the MotorClient class
+     */
 
     void rosCallback(geometry_msgs::Twist twistMessage);
 

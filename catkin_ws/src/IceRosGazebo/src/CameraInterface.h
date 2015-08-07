@@ -27,14 +27,8 @@ public:
 
     virtual Ice::Int setCameraDescription(const jderobot::CameraDescriptionPtr &description, const Ice::Current& c);
 
-    //virtual jderobot::ImageDataPtr getImageData( const std::string& format, const Ice::Current& c );
-
     virtual void getImageData_async (const jderobot::AMD_ImageProvider_getImageDataPtr& cb,const std::string& format, const Ice::Current& c);
 
-    /*
-    virtual void getImageData_async (const jderobot::AMD_ImageProvider_getImageDataPtr& cb,const std::string& format, const Ice::Current& c){
-        replyTask->pushJob(cb, format);
-    }*/
 
     virtual jderobot::ImageFormat getImageFormat(const Ice::Current& c);
 
@@ -54,13 +48,6 @@ public:
 private:
 
     void rosCallback(const sensor_msgs::ImageConstPtr &image_message);
-
-    //int count;
-
-    //jderobot::ImageDataPtr reply;
-
-
-    std::ofstream myfile;
 
 
 

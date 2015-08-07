@@ -62,10 +62,3 @@ geometry_msgs::Pose Pose3DClient::publishROS()
     return Pose3D;
 }
 
-void Pose3DClient::rosCallback(geometry_msgs::Pose Pose3DMessage)
-{
-
-
-
-}
-

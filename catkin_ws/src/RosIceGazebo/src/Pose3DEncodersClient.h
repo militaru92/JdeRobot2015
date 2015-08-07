@@ -11,8 +11,16 @@ class Pose3DEncodersClient : public Ros_Ice < jderobot::Pose3DEncodersPrx >
 
 public:
 
+    /**
+     * @brief This constructor initializes the ROS topic using the nodeName parameter
+     */
+
     Pose3DEncodersClient(int argc, char **argv, std::string nodeName);
     ~Pose3DEncodersClient();
+
+    /**
+     * @brief Method to get the Ice data from the JdeRobot simulator and publish it to the ROS topic
+     */
 
     void publishROS();
 

@@ -8,7 +8,6 @@ EncodersInterface::EncodersInterface(int argc, char **argv, std::string nodeName
 
     encodersData = new jderobot::EncodersData();
 
-    //myfile.open("Ros.txt");
 
 
 }
@@ -16,7 +15,6 @@ EncodersInterface::EncodersInterface(int argc, char **argv, std::string nodeName
 EncodersInterface::~EncodersInterface()
 {
 
-    //delete encodersData;
 
 }
 
@@ -27,7 +25,7 @@ jderobot::EncodersDataPtr EncodersInterface::getEncodersData(const Ice::Current 
 
 void EncodersInterface::setEncodersData(const jderobot::EncodersDataPtr &encodersData, const Ice::Current &)
 {
-    //std::cout <<"Set encoders" << std::endl;
+
 }
 
 void EncodersInterface::rosCallback(RosIceMessage::EncodersData encodersMsg)
@@ -38,8 +36,6 @@ void EncodersInterface::rosCallback(RosIceMessage::EncodersData encodersMsg)
     encodersData->robotcos = cos(encodersMsg.robottheta);
     encodersData->robotsin = sin(encodersMsg.robottheta);
 
-    //ROS_INFO("%f %f %f\n", encodersData->robotx, encodersData->roboty, encodersData->robottheta);
 
-    //myfile << encodersData->robotx << " " << encodersData->roboty << " " << encodersData->robottheta << std::endl;
 
 }

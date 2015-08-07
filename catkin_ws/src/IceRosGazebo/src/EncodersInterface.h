@@ -5,7 +5,6 @@
 #include <RosIceMessage/EncodersData.h>
 #include "Ros_Ice.h"
 
-#include <fstream>
 
 class EncodersInterface : virtual public jderobot::Encoders, public Ros_Ice< Ice::ObjectPrx >
 {
@@ -22,10 +21,8 @@ public:
 
 private:
 
-    //RosIceMessage::EncodersData encodersMsg;
     jderobot::EncodersDataPtr encodersData;
 
-    //std::ofstream myfile;
 
 
 };

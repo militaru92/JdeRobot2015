@@ -4,16 +4,13 @@ CameraClient::CameraClient(int argc, char **argv, std::string nodeName)
 {
     initializeROS(argc,argv,nodeName);
     addRosImagePublisher(nodeName,1000);
-    //addRosImageSubscriber<CameraClient>(nodeName,1000,&CameraClient::rosCallback,this);
 
     ImageWindow = nodeName;
 
-    //cv::namedWindow(ImageWindow);
 }
 
 CameraClient::~CameraClient()
 {
-    //cv::destroyWindow(ImageWindow);
 }
 
 void CameraClient::publishROS()
@@ -31,6 +28,7 @@ void CameraClient::publishROS()
 
     rosImagePublish(img_message);
 }
+/*
 
 void CameraClient::rosCallback(const sensor_msgs::ImageConstPtr& image_message)
 {
@@ -59,3 +57,4 @@ void CameraClient::rosCallback(const sensor_msgs::ImageConstPtr& image_message)
 
 }
 
+*/

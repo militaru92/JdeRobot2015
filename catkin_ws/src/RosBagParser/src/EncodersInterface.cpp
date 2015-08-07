@@ -20,7 +20,7 @@ jderobot::EncodersDataPtr EncodersInterface::getEncodersData(const Ice::Current 
 
     if(atEnd())
     {
-        std::cout<< "Reached End for Encoders " << index << std::endl;
+        std::cout<< "Reached End for Encoders " << std::endl;
         return encodersData;
     }
 

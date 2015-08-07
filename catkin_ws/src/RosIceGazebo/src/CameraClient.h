@@ -15,12 +15,20 @@ class CameraClient : public Ros_Ice < jderobot::CameraPrx >
 
 public:
 
+    /**
+     * @brief This constructor initializes the ROS topic using the nodeName parameter
+     */
+
     CameraClient(int argc, char **argv, std::string nodeName);
     ~CameraClient();
 
+    /**
+     * @brief Method to get the Ice data from the JdeRobot simulator and publish it to the ROS topic
+     */
+
     void publishROS();
 
-    void rosCallback(const sensor_msgs::ImageConstPtr& image_message);
+    //void rosCallback(const sensor_msgs::ImageConstPtr& image_message);
 
 private:
     std::string ImageWindow;

@@ -34,8 +34,6 @@ TeleOperator::~TeleOperator()
 
 void TeleOperator::rosCallback(geometry_msgs::Twist twistMessage)
 {
-    //ROS_INFO("Twist: %lf %lf %lf %lf %lf %lf\n", twistMessage.linear.x,twistMessage.linear.y,twistMessage.linear.z,twistMessage.angular.x,twistMessage.angular.y,twistMessage.angular.z);
-
 
     RosIceMessage::MotorData motorMsg;
 
