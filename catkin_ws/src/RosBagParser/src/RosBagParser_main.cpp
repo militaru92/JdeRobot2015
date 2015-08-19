@@ -23,6 +23,8 @@ int main(int argc, char **argv)
 
     std::cout << argv[1] << " -- " << argv[2] << std::endl;
 
+    std::string bagfile(argv[2]);
+
     try
     {
 
@@ -33,7 +35,7 @@ int main(int argc, char **argv)
         std::cout << "Encoders Endpoints > " << Endpoints << std::endl;
 
         Ice::ObjectAdapterPtr adapter_encoders = ic->createObjectAdapterWithEndpoints("Encoders", Endpoints);
-        Ice::ObjectPtr object_encoders = new EncodersInterface(argv[2],"/encoders");
+        Ice::ObjectPtr object_encoders = new EncodersInterface(bagfile,"/encoders");
 
         adapter_encoders->add(object_encoders, ic->stringToIdentity("Encoders"));
 
@@ -43,7 +45,7 @@ int main(int argc, char **argv)
         std::cout << "Laser Endpoints > " << Endpoints << std::endl;
 
         Ice::ObjectAdapterPtr adapter_laser = ic->createObjectAdapterWithEndpoints("Laser", Endpoints);
-        Ice::ObjectPtr object_laser = new LaserInterface(argv[2],"/laser");
+        Ice::ObjectPtr object_laser = new LaserInterface(bagfile,"/laser");
         adapter_laser->add(object_laser, ic->stringToIdentity("Laser"));
         adapter_laser->activate();
 
@@ -51,7 +53,7 @@ int main(int argc, char **argv)
         std::cout << "Pose3D Endpoints " << Endpoints << std::endl;
 
         Ice::ObjectAdapterPtr adapter_pose3D = ic->createObjectAdapterWithEndpoints("Pose3D", Endpoints);
-        Ice::ObjectPtr object_pose3D = new Pose3DInterface(argv[2],"/pose3d_pioneer");
+        Ice::ObjectPtr object_pose3D = new Pose3DInterface(bagfile,"/pose3d_pioneer");
 
         adapter_pose3D->add(object_pose3D, ic->stringToIdentity("Pose3D"));
 
@@ -61,7 +63,7 @@ int main(int argc, char **argv)
 
         Ice::ObjectAdapterPtr adapter_cam_left = ic->createObjectAdapterWithEndpoints("CameraGazebo1", Endpoints);
 
-        Ice::ObjectPtr object_cam_left = new CameraInterface(argv[2],"/cam_pioneer_left");
+        Ice::ObjectPtr object_cam_left = new CameraInterface(bagfile,"/cam_pioneer_left");
         adapter_cam_left->add(object_cam_left, ic->stringToIdentity("cam_pioneer_left"));
         adapter_cam_left->activate();
 
@@ -69,7 +71,7 @@ int main(int argc, char **argv)
 
         Ice::ObjectAdapterPtr adapter_cam_right = ic->createObjectAdapterWithEndpoints("CameraGazebo2", Endpoints);
 
-        Ice::ObjectPtr object_cam_right = new CameraInterface(argv[2],"/cam_pioneer_right");
+        Ice::ObjectPtr object_cam_right = new CameraInterface(bagfile,"/cam_pioneer_right");
         adapter_cam_right->add(object_cam_right, ic->stringToIdentity("cam_pioneer_right"));
         adapter_cam_right->activate();
 
@@ -88,7 +90,7 @@ int main(int argc, char **argv)
 
         Ice::ObjectAdapterPtr adapter_pose3dencoders1 = ic->createObjectAdapterWithEndpoints("Pose3DEncoders1", Endpoints);
 
-        Ice::ObjectPtr object_pose3dencoders1 = new Pose3DEncodersInterface(argv[2],"/pioneer_pose3dencoders_left_encoders");
+        Ice::ObjectPtr object_pose3dencoders1 = new Pose3DEncodersInterface(bagfile,"/pioneer_pose3dencoders_left_encoders");
 
         adapter_pose3dencoders1->add(object_pose3dencoders1, ic->stringToIdentity("Pose3DEncoders1"));
         adapter_pose3dencoders1->activate();
@@ -100,7 +102,7 @@ int main(int argc, char **argv)
 
         Ice::ObjectAdapterPtr adapter_pose3dencoders2 = ic->createObjectAdapterWithEndpoints("Pose3DEncoders2", Endpoints);
 
-        Ice::ObjectPtr object_pose3dencoders2 = new Pose3DEncodersInterface(argv[2],"/pioneer_pose3dencoders_right_encoders");
+        Ice::ObjectPtr object_pose3dencoders2 = new Pose3DEncodersInterface(bagfile,"/pioneer_pose3dencoders_right_encoders");
 
         adapter_pose3dencoders2->add(object_pose3dencoders2, ic->stringToIdentity("Pose3DEncoders2"));
         adapter_pose3dencoders2->activate();
@@ -114,7 +116,7 @@ int main(int argc, char **argv)
         Ice::ObjectAdapterPtr adapter_motors_encoders1 = ic->createObjectAdapterWithEndpoints("Pose3DMotors1", Endpoints);
 
 
-        Ice::ObjectPtr object_motors_encoders1 = new Pose3DMotorsInterface(argv[2],"/pioneer_pose3dencoders_left_motors");
+        Ice::ObjectPtr object_motors_encoders1 = new Pose3DMotorsInterface(bagfile,"/pioneer_pose3dencoders_left_motors");
 
 
 
@@ -130,7 +132,7 @@ int main(int argc, char **argv)
 
         Ice::ObjectAdapterPtr adapter_motors_encoders2 = ic->createObjectAdapterWithEndpoints("Pose3DMotors2", Endpoints);
 
-        Ice::ObjectPtr object_motors_encoders2 = new Pose3DMotorsInterface(argv[2],"/pioneer_pose3dencoders_right_motors");
+        Ice::ObjectPtr object_motors_encoders2 = new Pose3DMotorsInterface(bagfile,"/pioneer_pose3dencoders_right_motors");
         adapter_motors_encoders2->add(object_motors_encoders2, ic->stringToIdentity("Pose3DMotors2"));
 
         adapter_motors_encoders2->activate();
