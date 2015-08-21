@@ -99,6 +99,7 @@ catkin_package(
 include_directories(
   ${catkin_INCLUDE_DIRS}
   ${PCL_INCLUDE_DIRS}
+  /usr/local/include/jderobot
 )
 
 link_directories(${PCL_LIBRARY_DIRS})
@@ -113,6 +114,8 @@ list(APPEND ice_LIBRARIES
     ${ice_LIBRARY3}
 )
 
+file(GLOB jderobot_libraries "/usr/local/lib/jderobot/*.so")
+
 
 ## Declare a cpp library
 # add_library(RosPCL
@@ -123,6 +126,9 @@ file(GLOB CPP_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 add_executable(openni_grabber src/main_grabber.cpp)
 add_executable(openni_viewer src/main_viewer.cpp)
 
+add_executable(IceRosInterface src/main_ice_grabber.cpp src/KinectClient.cpp)
+add_executable(RosViewer src/main_ros_viewer.cpp src/RosOpenNIViewer.cpp)
+
  target_link_libraries(openni_grabber
    ${catkin_LIBRARIES}
    ${ice_LIBRARIES}
@@ -132,6 +138,7 @@ add_executable(openni_viewer src/main_viewer.cpp)
    ${OpenCV_LIBRARIES}
    ${OpenCV_LIBS}
    ${PCL_LIBRARIES}
+   ${jderobot_libraries}
  )
 
 
@@ -144,6 +151,31 @@ add_executable(openni_viewer src/main_viewer.cpp)
    ${OpenCV_LIBRARIES}
    ${OpenCV_LIBS}
    ${PCL_LIBRARIES}
+   ${jderobot_libraries}
+ )
+
+ target_link_libraries(IceRosInterface
+   ${catkin_LIBRARIES}
+   ${ice_LIBRARIES}
+   #jderobot_interfaces
+   ${ZLIB_LIBRARIES}
+   #${ZeroCIce_LIBRARIES}
+   ${OpenCV_LIBRARIES}
+   ${OpenCV_LIBS}
+   ${PCL_LIBRARIES}
+   ${jderobot_libraries}
+ )
+
+ target_link_libraries(RosViewer
+   ${catkin_LIBRARIES}
+   ${ice_LIBRARIES}
+   #jderobot_interfaces
+   ${ZLIB_LIBRARIES}
+   #${ZeroCIce_LIBRARIES}
+   ${OpenCV_LIBRARIES}
+   ${OpenCV_LIBS}
+   ${PCL_LIBRARIES}
+   ${jderobot_libraries}
  )
 ## Declare a cpp executable
 # add_executable(RosPCL_node src/RosPCL_node.cpp)
