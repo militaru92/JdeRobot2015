@@ -8,6 +8,8 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   std_msgs
   image_transport
+  sensor_msgs
+  message_generation
 )
 
 find_package(PCL 1.2 REQUIRED)
@@ -53,6 +55,12 @@ find_package(OpenCV REQUIRED)
 #   Message2.msg
 # )
 
+ add_message_files(
+   FILES
+   RGB_Depth_Image.msg
+
+ )
+
 ## Generate services in the 'srv' folder
 # add_service_files(
 #   FILES
@@ -72,6 +80,14 @@ find_package(OpenCV REQUIRED)
 #   DEPENDENCIES
 #   std_msgs
 # )
+
+ generate_messages(
+   DEPENDENCIES
+   std_msgs
+   geometry_msgs
+   sensor_msgs
+ )
+
 
 ###################################
 ## catkin specific configuration ##
@@ -123,7 +139,9 @@ file(GLOB jderobot_libraries "/usr/local/lib/jderobot/*.so")
 # )
 
 file(GLOB CPP_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
-add_executable(openni_grabber src/main_grabber.cpp)
+
+add_executable(openni_grabber src/main_grabber.cpp src/RosKinectGrabber.cpp)
+add_dependencies(openni_grabber RosPCL_generate_messages_cpp)
 add_executable(openni_viewer src/main_viewer.cpp)
 
 add_executable(IceRosInterface src/main_ice_grabber.cpp src/KinectClient.cpp)
@@ -140,7 +158,6 @@ add_executable(RosViewer src/main_ros_viewer.cpp src/RosOpenNIViewer.cpp)
    ${PCL_LIBRARIES}
    ${jderobot_libraries}
  )
-
 
  target_link_libraries(openni_viewer
    ${catkin_LIBRARIES}

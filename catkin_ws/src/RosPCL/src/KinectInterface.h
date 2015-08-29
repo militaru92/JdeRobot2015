@@ -1,0 +1,6 @@
+#ifndef KINECTINTERFACE_H
+#define KINECTINTERFACE_H
+
+
+
+#endif // KINECTINTERFACE_H

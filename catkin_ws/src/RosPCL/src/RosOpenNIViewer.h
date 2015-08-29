@@ -17,6 +17,7 @@ public:
 private:
 
     pcl::visualization::CloudViewer viewer;
+    //pcl::visualization::PCLVisualizer viewer;
 
 
 };
