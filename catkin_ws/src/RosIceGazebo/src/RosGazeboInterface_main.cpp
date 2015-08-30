@@ -93,11 +93,6 @@ int main(int argc, char **argv)
         std::cerr << msg << std::endl;
         status = 1;
     }
-    if (ic)
-    {
-        ic->destroy();
-    }
-
 
     return 0;
 }

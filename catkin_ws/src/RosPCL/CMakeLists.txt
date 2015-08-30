@@ -6,6 +6,7 @@ project(RosPCL)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+  cv_bridge
   std_msgs
   image_transport
   sensor_msgs
@@ -55,11 +56,11 @@ find_package(OpenCV REQUIRED)
 #   Message2.msg
 # )
 
- add_message_files(
-   FILES
-   RGB_Depth_Image.msg
+#add_message_files(
+ #  FILES
+  # RGB_Depth_Image.msg
 
- )
+ #)
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -81,12 +82,12 @@ find_package(OpenCV REQUIRED)
 #   std_msgs
 # )
 
- generate_messages(
-   DEPENDENCIES
-   std_msgs
-   geometry_msgs
-   sensor_msgs
- )
+ #generate_messages(
+ #  DEPENDENCIES
+ #  std_msgs
+ #  geometry_msgs
+ #  sensor_msgs
+ #)
 
 
 ###################################
@@ -101,7 +102,7 @@ find_package(OpenCV REQUIRED)
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES RosPCL
-  CATKIN_DEPENDS roscpp std_msgs image_transport
+  CATKIN_DEPENDS roscpp std_msgs image_transport cv_bridge
 #  DEPENDS system_lib
 )
 
@@ -115,6 +116,8 @@ catkin_package(
 include_directories(
   ${catkin_INCLUDE_DIRS}
   ${PCL_INCLUDE_DIRS}
+  ${OpenCV_INCLUDE_DIRS}
+  ${Boost_INCLUDE_DIR}
   /usr/local/include/jderobot
 )
 
@@ -140,14 +143,14 @@ file(GLOB jderobot_libraries "/usr/local/lib/jderobot/*.so")
 
 file(GLOB CPP_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 
-add_executable(openni_grabber src/main_grabber.cpp src/RosKinectGrabber.cpp)
-add_dependencies(openni_grabber RosPCL_generate_messages_cpp)
-add_executable(openni_viewer src/main_viewer.cpp)
+add_executable(openni_ros_grabber src/main_ros_grabber.cpp src/RosKinectGrabber.cpp)
+#add_dependencies(openni_grabber RosPCL_generate_messages_cpp)
+add_executable(openni_ice_interface src/main_ice_interface.cpp src/KinectInterface.cpp)
 
 add_executable(IceRosInterface src/main_ice_grabber.cpp src/KinectClient.cpp)
 add_executable(RosViewer src/main_ros_viewer.cpp src/RosOpenNIViewer.cpp)
 
- target_link_libraries(openni_grabber
+ target_link_libraries(openni_ros_grabber
    ${catkin_LIBRARIES}
    ${ice_LIBRARIES}
    #jderobot_interfaces
@@ -159,7 +162,7 @@ add_executable(RosViewer src/main_ros_viewer.cpp src/RosOpenNIViewer.cpp)
    ${jderobot_libraries}
  )
 
- target_link_libraries(openni_viewer
+ target_link_libraries(openni_ice_interface
    ${catkin_LIBRARIES}
    ${ice_LIBRARIES}
    #jderobot_interfaces
@@ -194,62 +197,4 @@ add_executable(RosViewer src/main_ros_viewer.cpp src/RosOpenNIViewer.cpp)
    ${PCL_LIBRARIES}
    ${jderobot_libraries}
  )
-## Declare a cpp executable
-# add_executable(RosPCL_node src/RosPCL_node.cpp)
 
-## Add cmake target dependencies of the executable/library
-## as an example, message headers may need to be generated before nodes
-# add_dependencies(RosPCL_node RosPCL_generate_messages_cpp)
-
-## Specify libraries to link a library or executable target against
-# target_link_libraries(RosPCL_node
-#   ${catkin_LIBRARIES}
-# )
-
-#############
-## Install ##
-#############
-
-# all install targets should use catkin DESTINATION variables
-# See http://ros.org/doc/api/catkin/html/adv_user_guide/variables.html
-
-## Mark executable scripts (Python etc.) for installation
-## in contrast to setup.py, you can choose the destination
-# install(PROGRAMS
-#   scripts/my_python_script
-#   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-# )
-
-## Mark executables and/or libraries for installation
-# install(TARGETS RosPCL RosPCL_node
-#   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-#   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-#   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-# )
-
-## Mark cpp header files for installation
-# install(DIRECTORY include/${PROJECT_NAME}/
-#   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-#   FILES_MATCHING PATTERN "*.h"
-#   PATTERN ".svn" EXCLUDE
-# )
-
-## Mark other files for installation (e.g. launch and bag files, etc.)
-# install(FILES
-#   # myfile1
-#   # myfile2
-#   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-# )
-
-#############
-## Testing ##
-#############
-
-## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_RosPCL.cpp)
-# if(TARGET ${PROJECT_NAME}-test)
-#   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
-# endif()
-
-## Add folders to be run by python nosetests
-# catkin_add_nosetests(test)

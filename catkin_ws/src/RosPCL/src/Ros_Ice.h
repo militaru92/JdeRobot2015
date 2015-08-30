@@ -17,13 +17,13 @@ class Ros_Ice
 
 private:
 
-    ros::NodeHandle* RosNode;
+    //ros::NodeHandle* RosNode;
     ros::Publisher*  RosPublisher;
     ros::Subscriber* RosSubscriber;
     ros::ServiceClient* RosServiceClient;
     ros::ServiceServer* RosServiceServer;
 
-    image_transport::ImageTransport* ImageNode;
+    //image_transport::ImageTransport* ImageNode;
     image_transport::Publisher* ImagePublisher;
     image_transport::Subscriber* ImageSubscriber;
 
@@ -38,6 +38,8 @@ private:
 protected:
 
     IcePrx Proxy;
+    image_transport::ImageTransport* ImageNode;
+    ros::NodeHandle* RosNode;
 
 public:
 
