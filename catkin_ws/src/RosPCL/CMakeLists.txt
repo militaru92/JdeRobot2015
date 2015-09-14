@@ -145,9 +145,9 @@ file(GLOB CPP_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 
 add_executable(openni_ros_grabber src/main_ros_grabber.cpp src/RosKinectGrabber.cpp)
 #add_dependencies(openni_grabber RosPCL_generate_messages_cpp)
-add_executable(openni_ice_interface src/main_ice_interface.cpp src/KinectInterface.cpp)
+add_executable(openni_ice_interface src/main_ice_interface.cpp)
 
-add_executable(IceRosInterface src/main_ice_grabber.cpp src/KinectClient.cpp)
+add_executable(IceRosInterface src/main_ice_grabber.cpp)
 add_executable(RosViewer src/main_ros_viewer.cpp src/RosOpenNIViewer.cpp)
 
  target_link_libraries(openni_ros_grabber

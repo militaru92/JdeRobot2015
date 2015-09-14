@@ -5,7 +5,7 @@ project(RosIceGazebo)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  RosIceMessage
+#  RosIceMessage
   cv_bridge
   image_transport
   roscpp
@@ -104,7 +104,7 @@ file(GLOB jderobot_libraries "/usr/local/lib/jderobot/*.so")
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES RosIceGazebo
-  CATKIN_DEPENDS RosIceMessage
+#  CATKIN_DEPENDS RosIceMessage
 #  DEPENDS system_lib
 )
 
@@ -149,7 +149,7 @@ add_executable(RosGazeboInterface ${CPP_SRC})
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-add_dependencies(RosGazeboInterface RosIceMessage_generate_messages_cpp)
+#add_dependencies(RosGazeboInterface RosIceMessage_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(RosIceGazebo_node
@@ -158,9 +158,9 @@ add_dependencies(RosGazeboInterface RosIceMessage_generate_messages_cpp)
  target_link_libraries(RosGazeboInterface
    ${catkin_LIBRARIES}
    ${ice_LIBRARIES}
-   #jderobot_interfaces
+     #jderobot_interfaces
    ${ZLIB_LIBRARIES}
-   #${ZeroCIce_LIBRARIES}
+     #${ZeroCIce_LIBRARIES}
    ${OpenCV_LIBRARIES}
    ${OpenCV_LIBS}
    ${jderobot_libraries}

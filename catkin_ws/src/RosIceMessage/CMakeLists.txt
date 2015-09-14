@@ -141,6 +141,9 @@ include_directories(
 ## Install ##
 #############
 
+#FILE(GLOB HEADER_ROS_FILES ${CMAKE_CURRENT_SOURCE_DIR}/devel/include/RosIceMessage/*.h)
+#INSTALL (FILES ${HEADER_ROS_FILES} DESTINATION /usr/local/include/jderobot/RosIceMessage)
+
 # all install targets should use catkin DESTINATION variables
 # See http://ros.org/doc/api/catkin/html/adv_user_guide/variables.html
 
