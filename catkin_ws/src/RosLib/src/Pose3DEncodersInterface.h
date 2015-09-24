@@ -3,7 +3,8 @@
 
 
 #include <jderobot/pose3dencoders.h>
-#include <RosIceMessage/Pose3DEncodersData.h>
+//#include <RosIceMessage/Pose3DEncodersData.h>
+#include "Pose3DEncodersData.h"
 #include "Ros_Ice.h"
 
 #include <fstream>

@@ -3,7 +3,8 @@
 
 #include "Ros_Ice.h"
 #include <jderobot/motors.h>
-#include <RosIceMessage/MotorData.h>
+//#include <RosIceMessage/MotorData.h>
+#include "MotorData.h"
 #include <visionlib/colorspaces/colorspacesmm.h>
 
 

@@ -4,7 +4,8 @@
 #include "Ros_Ice.h"
 #include <pose3d.h>
 #include <geometry_msgs/Pose.h>
-#include <RosIceMessage/Pose3D.h>
+//#include <RosIceMessage/Pose3D.h>
+#include "Pose3D.h"
 
 
 class Pose3DClient : public Ros_Ice < jderobot::Pose3DPrx >

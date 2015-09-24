@@ -2,7 +2,8 @@
 #define ENCODERSCLIENT_H
 
 #include "Ros_Ice.h"
-#include <RosIceMessage/EncodersData.h>
+//#include <RosIceMessage/EncodersData.h>
+#include "EncodersData.h"
 #include <encoders.h>
 
 

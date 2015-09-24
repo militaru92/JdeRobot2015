@@ -2,8 +2,10 @@
 #define MOTORSINTERFACE_H
 
 #include <jderobot/motors.h>
-#include <RosIceMessage/MotorData.h>
-#include <RosIceMessage/MotorsSrv.h>
+//#include <RosIceMessage/MotorData.h>
+//#include <RosIceMessage/MotorsSrv.h>
+#include "MotorData.h"
+#include "MotorsSrv.h"
 #include "Ros_Ice.h"
 
 #include <fstream>

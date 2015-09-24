@@ -9,8 +9,10 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <laser.h>
-#include <RosIceMessage/Laser.h>
-#include <RosIceMessage/EncodersData.h>
+//#include <RosIceMessage/Laser.h>
+//#include <RosIceMessage/EncodersData.h>
+#include "EncodersData.h"
+#include "Laser.h"
 #include <geometry_msgs/Pose.h>
 //#include <geometry_msgs/Vector3.h>
 #include <visionlib/colorspaces/colorspacesmm.h>

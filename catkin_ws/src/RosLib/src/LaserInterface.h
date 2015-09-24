@@ -2,7 +2,8 @@
 #define LASERINTERFACE_H
 
 #include <jderobot/laser.h>
-#include <RosIceMessage/Laser.h>
+//#include <RosIceMessage/Laser.h>
+#include "Laser.h"
 #include "Ros_Ice.h"
 
 #include <fstream>

@@ -12,11 +12,13 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   sensor_msgs
   std_msgs
+  gazebo_ros
 )
 
 find_package(PCL 1.2 REQUIRED)
 find_package(OpenCV REQUIRED)
 find_package( ZLIB REQUIRED )
+find_package(gazebo REQUIRED)
 
 file(GLOB jderobot_libraries "/usr/local/lib/jderobot/*.so")
 
@@ -47,11 +49,40 @@ include_directories(
   ${OpenCV_INCLUDE_DIRS}
   ${PCL_INCLUDE_DIRS}
   ${Boost_INCLUDE_DIR}
+  ${GAZEBO_INCLUDE_DIRS}
   #${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
-file(GLOB CPP_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
-add_library(ros_ice SHARED ${CPP_SRC})
+link_directories(${GAZEBO_LIBRARY_DIRS})
+
+add_library(ros_camera SHARED src/RosCameraPlugin.cpp)
+#add_dependencies(ros_camera RosIceMessage_generate_messages_cpp)
+target_link_libraries(ros_camera ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES} CameraPlugin)
+
+add_library(ros_laser SHARED src/RosLaserPlugin.cpp)
+#add_dependencies(ros_laser RosIceMessage_generate_messages_cpp)
+target_link_libraries(ros_laser ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES} RayPlugin)
+
+add_library(ros_pose3d SHARED src/RosPose3DPlugin.cpp)
+#add_dependencies(ros_pose3d RosIceMessage_generate_messages_cpp)
+target_link_libraries(ros_pose3d ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+
+add_library(ros_encoders SHARED src/RosEncodersPlugin.cpp)
+#add_dependencies(ros_encoders RosIceMessage_generate_messages_cpp)
+target_link_libraries(ros_encoders ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+
+add_library(ros_motors SHARED src/RosMotorsPlugin.cpp)
+#add_dependencies(ros_motors RosIceMessage_generate_messages_cpp)
+target_link_libraries(ros_motors ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES} )
+
+add_library(ros_pose3dencoders SHARED src/RosPose3DEncodersPlugin.cpp)
+#add_dependencies(ros_pose3dencoders RosIceMessage_generate_messages_cpp)
+target_link_libraries(ros_pose3dencoders ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+
+file(GLOB CPP_INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/src/*Interface.cpp)
+file(GLOB CPP_CLIENT ${CMAKE_CURRENT_SOURCE_DIR}/src/*Client.cpp)
+
+add_library(ros_ice SHARED ${CPP_CLIENT} ${CPP_INTERFACE})
 #add_dependencies(ros_ice RosIceMessage_generate_messages_cpp)
 
  target_link_libraries(ros_ice
@@ -73,7 +104,9 @@ add_library(ros_ice SHARED ${CPP_SRC})
  )
 
 FILE(GLOB HEADER_ROS_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.h)
+FILE(GLOB ROS_LIB ${CMAKE_CURRENT_SOURCE_DIR}/devel/lib/*.so)
+
 INSTALL (FILES ${HEADER_ROS_FILES} DESTINATION /usr/local/include/jderobot)
-INSTALL (FILES ${CMAKE_CURRENT_SOURCE_DIR}/devel/lib/libros_ice.so DESTINATION /usr/local/lib/jderobot)
+INSTALL (FILES ${ROS_LIB} DESTINATION /usr/local/lib/jderobot)
 
 

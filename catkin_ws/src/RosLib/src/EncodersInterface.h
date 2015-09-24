@@ -2,7 +2,8 @@
 #define ENCODERSINTERFACE_H
 
 #include <jderobot/encoders.h>
-#include <RosIceMessage/EncodersData.h>
+//#include <RosIceMessage/EncodersData.h>
+#include "EncodersData.h"
 #include "Ros_Ice.h"
 
 
