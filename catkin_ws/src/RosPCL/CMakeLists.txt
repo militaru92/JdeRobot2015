@@ -144,6 +144,7 @@ file(GLOB jderobot_libraries "/usr/local/lib/jderobot/*.so")
 file(GLOB CPP_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 
 add_executable(openni_ros_grabber src/main_ros_grabber.cpp src/RosKinectGrabber.cpp)
+
 #add_dependencies(openni_grabber RosPCL_generate_messages_cpp)
 add_executable(openni_ice_interface src/main_ice_interface.cpp)
 

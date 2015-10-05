@@ -59,6 +59,7 @@ find_package(catkin REQUIRED COMPONENTS
    Pose3DEncodersData.msg
    EncodersData.msg
    Pose3D.msg
+   CMDVelData.msg
  )
 
 ## Generate services in the 'srv' folder
