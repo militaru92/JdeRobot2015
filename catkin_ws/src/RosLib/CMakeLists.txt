@@ -50,7 +50,7 @@ include_directories(
   ${PCL_INCLUDE_DIRS}
   ${Boost_INCLUDE_DIR}
   ${GAZEBO_INCLUDE_DIRS}
-  #${CMAKE_CURRENT_SOURCE_DIR}/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/include/RosLib
 )
 
 link_directories(${GAZEBO_LIBRARY_DIRS})
@@ -82,7 +82,7 @@ target_link_libraries(ros_pose3dencoders ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES}
 file(GLOB CPP_INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/src/*Interface.cpp)
 file(GLOB CPP_CLIENT ${CMAKE_CURRENT_SOURCE_DIR}/src/*Client.cpp)
 
-add_library(ros_ice SHARED ${CPP_CLIENT} ${CPP_INTERFACE})
+add_library(ros_ice SHARED ${CPP_CLIENT} ${CPP_INTERFACE} src/TeleOperator.cpp)
 #add_dependencies(ros_ice RosIceMessage_generate_messages_cpp)
 
  target_link_libraries(ros_ice

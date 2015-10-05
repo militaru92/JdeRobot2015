@@ -153,30 +153,6 @@ file(GLOB jderobot_libraries "/usr/local/lib/jderobot/*.so")
 #   src/${PROJECT_NAME}/IceRosGazebo.cpp
 # )
 
-add_library(ros_camera SHARED src/RosCameraPlugin.cpp)
-#add_dependencies(ros_camera RosIceMessage_generate_messages_cpp)
-target_link_libraries(ros_camera ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES} CameraPlugin)
-
-add_library(ros_laser SHARED src/RosLaserPlugin.cpp)
-#add_dependencies(ros_laser RosIceMessage_generate_messages_cpp)
-target_link_libraries(ros_laser ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES} RayPlugin)
-
-add_library(ros_pose3d SHARED src/RosPose3DPlugin.cpp)
-#add_dependencies(ros_pose3d RosIceMessage_generate_messages_cpp)
-target_link_libraries(ros_pose3d ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
-
-add_library(ros_encoders SHARED src/RosEncodersPlugin.cpp)
-#add_dependencies(ros_encoders RosIceMessage_generate_messages_cpp)
-target_link_libraries(ros_encoders ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
-
-add_library(ros_motors SHARED src/RosMotorsPlugin.cpp)
-#add_dependencies(ros_motors RosIceMessage_generate_messages_cpp)
-target_link_libraries(ros_motors ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES} )
-
-add_library(ros_pose3dencoders SHARED src/RosPose3DEncodersPlugin.cpp)
-#add_dependencies(ros_pose3dencoders RosIceMessage_generate_messages_cpp)
-target_link_libraries(ros_pose3dencoders ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
-
 file(GLOB CPP_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/*Interface*.cpp)
 
 
